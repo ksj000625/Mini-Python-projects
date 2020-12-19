@@ -1,2 +1,2 @@
 # Mini-Python-projects
-SOme fun with Python
+Some fun with Python
