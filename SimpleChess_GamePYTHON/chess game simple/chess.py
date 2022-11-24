@@ -22,6 +22,7 @@ board = [ a1, b1, ..., g8, h8 ]
 move = [ leaving_position, arriving_position ]
 
 '''
+'''김하랑이 주석 남김'''
 from copy import deepcopy
 from random import choice
 from time import sleep, time
