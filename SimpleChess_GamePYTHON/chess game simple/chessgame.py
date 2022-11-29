@@ -26,6 +26,7 @@ move = [ leaving_position, arriving_position ]
 from copy import deepcopy
 from random import choice
 from time import sleep, time
+import chess.variant
 
 COLOR_MASK = 1 << 3
 WHITE = 0 << 3
@@ -292,6 +293,8 @@ class CrazyHouse:
         self.castling_rights = FULL_CASTLING_RIGHTS
         self.halfmove_clock = 0
         self.fullmove_number = 1
+        self.white_Pocket = chess.variant.CrazyhousePocket()
+        self.black_Pocket = chess.variant.CrazyhousePocket()
         
         self.position_history = []
         if FEN != '':
