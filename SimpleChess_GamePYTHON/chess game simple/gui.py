@@ -242,13 +242,13 @@ def play_as(game, color):
         bug_file.write('\n-----------------------------\n\n')
         bug_file.close()
 
-def play_as_white(game=chess.Game()):
+def play_as_white(game=chess.CrazyHouse()):
     return play_as(game, chess.WHITE)
 
-def play_as_black(game=chess.Game()):
+def play_as_black(game=chess.CrazyHouse()):
     return play_as(game, chess.BLACK)
 
-def play_random_color(game=chess.Game()):
+def play_random_color(game=chess.CrazyHouse()):
     color = choice([chess.WHITE, chess.BLACK])
     play_as(game, color)
 
