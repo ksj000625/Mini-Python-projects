@@ -1,9 +1,4 @@
-'''
-Developed by: Frederico Jordan
-
-@author: fvj
-'''
-import pygame, chess
+import pygame, chess, sys
 from random import choice
 from traceback import format_exc
 from sys import stderr
@@ -13,9 +8,12 @@ import os
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-pygame.init()#testest
+pygame.init()
 
-SQUARE_SIDE = 50
+CLOCK = pygame.time.Clock()
+CLOCK_TICK = 15
+
+SQUARE_SIDE = 95
 AI_SEARCH_DEPTH = 2
 
 RED_CHECK          = (240, 150, 150)
@@ -55,14 +53,10 @@ WHITE_KNIGHT = pygame.image.load('images/white_knight.png')
 WHITE_PAWN   = pygame.image.load('images/white_pawn.png')
 WHITE_JOKER  = pygame.image.load('images/white_joker.png')
 
-CLOCK = pygame.time.Clock()
-CLOCK_TICK = 15
-
-SCREEN = pygame.display.set_mode((8*SQUARE_SIDE, 8*SQUARE_SIDE), pygame.RESIZABLE)
+SCREEN = pygame.display.set_mode((8*SQUARE_SIDE, 8*SQUARE_SIDE))
 SCREEN_TITLE = 'Chess Game'
-
-pygame.display.set_icon(pygame.image.load('images/chess_icon.ico'))
 pygame.display.set_caption(SCREEN_TITLE)
+pygame.display.set_icon(pygame.image.load('images/chess_icon.ico'))
 
 def resize_screen(square_side_len):
     global SQUARE_SIDE
@@ -180,7 +174,7 @@ def play_as(game, color):
             if chess.game_ended(game):
                 set_title(SCREEN_TITLE + ' - ' + chess.get_outcome(game))
                 ongoing = False
-             
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
@@ -252,5 +246,163 @@ def play_random_color(game=chess.Game()):
     color = choice([chess.WHITE, chess.BLACK])
     play_as(game, color)
 
-# chess.verbose = True
-play_random_color()
+#play_as_white()
+
+
+def get_font(size): 
+    return pygame.font.SysFont("arial",size,True,True)
+
+class Button():
+	def __init__(self, image, pos, text_input, font, base_color, hovering_color):
+		self.image = image
+		self.x_pos = pos[0]
+		self.y_pos = pos[1]
+		self.font = font
+		self.base_color, self.hovering_color = base_color, hovering_color
+		self.text_input = text_input
+		self.text = self.font.render(self.text_input, True, self.base_color)
+		if self.image is None:
+			self.image = self.text
+		self.rect = self.image.get_rect(center=(self.x_pos, self.y_pos))
+		self.text_rect = self.text.get_rect(center=(self.x_pos, self.y_pos))
+
+	def update(self, screen):
+		if self.image is not None:
+			screen.blit(self.image, self.rect)
+		screen.blit(self.text, self.text_rect)
+
+	def checkForInput(self, position):
+		if position[0] in range(self.rect.left, self.rect.right) and position[1] in range(self.rect.top, self.rect.bottom):
+			return True
+		return False
+
+	def changeColor(self, position):
+		if position[0] in range(self.rect.left, self.rect.right) and position[1] in range(self.rect.top, self.rect.bottom):
+			self.text = self.font.render(self.text_input, True, self.hovering_color)
+		else:
+			self.text = self.font.render(self.text_input, True, self.base_color)
+
+def blitz():
+    while True:
+        BLITZ_MOUSE_POS = pygame.mouse.get_pos()
+
+        SCREEN.fill("black")
+
+        BLITZ_TEXT = get_font(100).render("BLITZ", True, "#b68f40")
+        BLITZ_RECT = BLITZ_TEXT.get_rect(center=(380, 110))
+        SCREEN.blit(BLITZ_TEXT, BLITZ_RECT)
+
+        TEXT=get_font(40).render("Blitz chess simply refers to a game of", True, "white")
+        TEXT_RECT = TEXT.get_rect()
+        TEXT_RECT.centerx=round(400)
+        TEXT_RECT.y=220
+        SCREEN.blit(TEXT, TEXT_RECT)
+
+        TEXT=get_font(40).render("chess that has a fast time control.", True, "white")
+        TEXT_RECT = TEXT.get_rect()
+        TEXT_RECT.centerx=round(400)
+        TEXT_RECT.y=260
+        SCREEN.blit(TEXT, TEXT_RECT)
+
+        TEXT=get_font(40).render("Each player is given 10 minutes or less.", True, "white")
+        TEXT_RECT = TEXT.get_rect()
+        TEXT_RECT.centerx=round(400)
+        TEXT_RECT.y=320
+        SCREEN.blit(TEXT, TEXT_RECT)
+
+        BLITZ_BACK = Button(image=None, pos=(600, 500), 
+                            text_input="BACK", font=get_font(50), base_color="White", hovering_color="Green")
+        BLITZ_GAME=Button(image=None, pos=(160, 500), 
+                            text_input="START", font=get_font(50), base_color="White", hovering_color="Green")
+
+        for button in [BLITZ_GAME,BLITZ_BACK]:
+            button.changeColor(BLITZ_MOUSE_POS)
+            button.update(SCREEN)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if BLITZ_BACK.checkForInput(BLITZ_MOUSE_POS):
+                    main_menu()
+                if BLITZ_GAME.checkForInput(BLITZ_MOUSE_POS):
+                    play_as_black()
+        pygame.display.update()
+
+def crazyhouse():
+    while True:
+        CRAZY_MOUSE_POS = pygame.mouse.get_pos()
+
+        SCREEN.fill("black")
+
+        CRAZY_TEXT = get_font(100).render("CRAZY HOUSE", True, "#b68f40")
+        CRAZY_RECT = CRAZY_TEXT.get_rect(center=(380, 110))
+        SCREEN.blit(CRAZY_TEXT, CRAZY_RECT)
+
+        CRAZY_BACK = Button(image=None, pos=(600, 500), 
+                            text_input="BACK", font=get_font(50), base_color="White", hovering_color="Green")
+        CRAZY_GAME=Button(image=None, pos=(160, 500), 
+                            text_input="START", font=get_font(50), base_color="White", hovering_color="Green")                    
+
+        CRAZY_BACK.changeColor(CRAZY_MOUSE_POS)
+        CRAZY_GAME.changeColor(CRAZY_MOUSE_POS)
+        CRAZY_BACK.update(SCREEN)
+        CRAZY_GAME.update(SCREEN)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if CRAZY_BACK.checkForInput(CRAZY_MOUSE_POS):
+                    main_menu()
+
+        pygame.display.update()        
+
+
+def main_menu():
+    pygame.display.set_caption("CHESS GAME")
+
+    while True:
+        SCREEN.fill("black")  
+
+        MENU_MOUSE_POS = pygame.mouse.get_pos()
+
+        MENU_TEXT = get_font(100).render("CHESS GAME", True, "#b68f40")
+        MENU_RECT = MENU_TEXT.get_rect(center=(380, 100))
+        SCREEN.blit(MENU_TEXT, MENU_RECT)
+        
+        # main_background=pygame.image.load('')
+        # SCREEN.blit(main_background,(0,0))
+
+        BLITZ_BUTTON = Button(image=None, pos=(380, 250), 
+                            text_input="BLITZ", font=get_font(75), base_color="#d7fcd4", hovering_color="White")
+        CRAZYHOUSE_BUTTON = Button(image=None, pos=(380, 400), 
+                            text_input="CRAZYHOUSE", font=get_font(75), base_color="#d7fcd4", hovering_color="White")
+        QUIT_BUTTON = Button(image=None, pos=(380, 550), 
+                            text_input="QUIT", font=get_font(75), base_color="#d7fcd4", hovering_color="White")
+        for button in [BLITZ_BUTTON, CRAZYHOUSE_BUTTON, QUIT_BUTTON]:
+            button.changeColor(MENU_MOUSE_POS)
+            button.update(SCREEN)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if BLITZ_BUTTON.checkForInput(MENU_MOUSE_POS):
+                    blitz()
+                if CRAZYHOUSE_BUTTON.checkForInput(MENU_MOUSE_POS):
+                    crazyhouse()
+                if QUIT_BUTTON.checkForInput(MENU_MOUSE_POS):
+                    pygame.quit()
+                    sys.exit()
+        pygame.display.update()    
+
+main_menu()    
+
+
+    
+        
+
+
