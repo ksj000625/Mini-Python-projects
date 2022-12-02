@@ -568,8 +568,8 @@ def move_piece(board, move):
 
 def make_move(game, move):
     new_game = deepcopy(game)
-    leaving_position = move[0]
-    arriving_position = move[1]
+    leaving_position = move[0]  # 기존 위치
+    arriving_position = move[1] # 이동한 위치
     
     # update_clocks
     new_game.halfmove_clock += 1
