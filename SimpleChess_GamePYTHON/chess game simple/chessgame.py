@@ -295,6 +295,8 @@ class CrazyHouse:
         self.fullmove_number = 1
         self.white_Pocket = chess.variant.CrazyhousePocket()
         self.black_Pocket = chess.variant.CrazyhousePocket()
+        self.white_Pocket.reset()
+        self.black_Pocket.reset()
         
         self.position_history = []
         if FEN != '':
