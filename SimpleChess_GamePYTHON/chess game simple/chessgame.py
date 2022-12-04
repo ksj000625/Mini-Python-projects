@@ -27,6 +27,7 @@ from copy import deepcopy
 from random import choice
 from time import sleep, time
 import chess.variant
+import pygame
 
 COLOR_MASK = 1 << 3
 WHITE = 0 << 3
@@ -171,6 +172,120 @@ verbose = False
 # ========== CHESS GAME ==========
 
 class Game:
+    def __init__(self, FEN=''):
+        self.board = INITIAL_BOARD
+        self.to_move = WHITE
+        self.ep_square = 0
+        self.castling_rights = FULL_CASTLING_RIGHTS
+        self.halfmove_clock = 0
+        self.fullmove_number = 1
+        
+        self.position_history = []
+        if FEN != '':
+            self.load_FEN(FEN)
+            self.position_history.append(FEN)
+        else:
+            self.position_history.append(INITIAL_FEN)
+            
+        self.move_history = []
+    
+    def get_move_list(self):
+        return ' '.join(self.move_history)
+    
+    def to_FEN(self):
+        FEN_str = ''
+        
+        for i in range(len(RANKS)):
+            first = len(self.board) - 8*(i+1)
+            empty_sqrs = 0
+            for fille in range(len(FILES)):
+                piece = self.board[first+fille]
+                if piece&PIECE_MASK == EMPTY:
+                    empty_sqrs += 1
+                else:
+                    if empty_sqrs > 0:
+                        FEN_str += '{}'.format(empty_sqrs)
+                    FEN_str += '{}'.format(piece2str(piece))
+                    empty_sqrs = 0
+            if empty_sqrs > 0:
+                FEN_str += '{}'.format(empty_sqrs)
+            FEN_str += '/'
+        FEN_str = FEN_str[:-1] + ' '
+        
+        if self.to_move == WHITE:
+            FEN_str += 'w '
+        if self.to_move == BLACK:
+            FEN_str += 'b '
+            
+        if self.castling_rights & CASTLE_KINGSIDE_WHITE:
+            FEN_str += 'K'
+        if self.castling_rights & CASTLE_QUEENSIDE_WHITE:
+            FEN_str += 'Q'
+        if self.castling_rights & CASTLE_KINGSIDE_BLACK:
+            FEN_str += 'k'
+        if self.castling_rights & CASTLE_QUEENSIDE_BLACK:
+            FEN_str += 'q'
+        if self.castling_rights == 0:
+            FEN_str += '-'
+        FEN_str += ' '
+            
+        if self.ep_square == 0:
+            FEN_str += '-'
+        else:
+            FEN_str += bb2str(self.ep_square)
+        
+        FEN_str += ' {}'.format(self.halfmove_clock)
+        FEN_str += ' {}'.format(self.fullmove_number)
+        return FEN_str
+    
+    def load_FEN(self, FEN_str):
+        FEN_list = FEN_str.split(' ')
+        
+        board_str = FEN_list[0]
+        rank_list = board_str.split('/')
+        rank_list.reverse()
+        self.board = []
+        
+        for rank in rank_list:
+            rank_pieces = []
+            for p in rank:
+                if p.isdigit():
+                    for _ in range(int(p)):
+                        rank_pieces.append(EMPTY)
+                else:
+                    rank_pieces.append(str2piece(p))
+            self.board.extend(rank_pieces)
+        
+        to_move_str = FEN_list[1].lower()
+        if to_move_str == 'w':
+            self.to_move = WHITE
+        if to_move_str == 'b':
+            self.to_move = BLACK
+        
+        castling_rights_str = FEN_list[2]
+        self.castling_rights = 0
+        if castling_rights_str.find('K') >= 0:
+            self.castling_rights |= CASTLE_KINGSIDE_WHITE
+        if castling_rights_str.find('Q') >= 0:
+            self.castling_rights |= CASTLE_QUEENSIDE_WHITE
+        if castling_rights_str.find('k') >= 0:
+            self.castling_rights |= CASTLE_KINGSIDE_BLACK
+        if castling_rights_str.find('q') >= 0:
+            self.castling_rights |= CASTLE_QUEENSIDE_BLACK 
+        
+        ep_str = FEN_list[3]
+        if ep_str == '-':
+            self.ep_square = 0
+        else:
+            self.ep_square = str2bb(ep_str)
+        
+        self.halfmove_clock = int(FEN_list[4])
+        self.fullmove_number = int(FEN_list[5])
+
+# ================================
+
+#========== blitz game ===========
+class blitz:
     def __init__(self, FEN=''):
         self.board = INITIAL_BOARD
         self.to_move = WHITE
