@@ -15,9 +15,10 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 pygame.init()
 
-SQUARE_SIDE = 50
+SQUARE_SIDE = 55
 AI_SEARCH_DEPTH = 2
 
+CLOCK_BACKGROUND = (0,0,0)
 RED_CHECK          = (240, 150, 150)
 WHITE              = (255, 255, 255)
 BLUE_LIGHT         = (140, 184, 219)
@@ -58,7 +59,7 @@ WHITE_JOKER  = pygame.image.load('images/white_joker.png')
 CLOCK = pygame.time.Clock()
 CLOCK_TICK = 15
 
-SCREEN = pygame.display.set_mode((8*SQUARE_SIDE, 8*SQUARE_SIDE), pygame.RESIZABLE)
+SCREEN = pygame.display.set_mode((8*SQUARE_SIDE, 8*SQUARE_SIDE + 200), pygame.RESIZABLE)
 SCREEN_TITLE = 'Chess Game'
 
 pygame.display.set_icon(pygame.image.load('images/chess_icon.ico'))
@@ -78,6 +79,7 @@ def paint_square(square, square_color):
     col = chessgame.FILES.index(square[0])
     row = 7-chessgame.RANKS.index(square[1])
     pygame.draw.rect(SCREEN, square_color, (SQUARE_SIDE*col,SQUARE_SIDE*row,SQUARE_SIDE,SQUARE_SIDE), 0)
+    pygame.draw.rect(SCREEN, CLOCK_BACKGROUND, (0, SQUARE_SIDE*8, SQUARE_SIDE*8 , SQUARE_SIDE+200),0)
 
 def paint_dark_squares(square_color):
     for position in chessgame.single_gen(chessgame.DARK_SQUARES):
