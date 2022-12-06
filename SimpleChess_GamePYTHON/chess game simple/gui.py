@@ -16,6 +16,7 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 pygame.init()
 
 SQUARE_SIDE = 55
+CLOCK_SIDE = 250
 AI_SEARCH_DEPTH = 2
 
 CLOCK_BACKGROUND = (0,0,0)
@@ -59,10 +60,12 @@ WHITE_JOKER  = pygame.image.load('images/white_joker.png')
 CLOCK = pygame.time.Clock()
 CLOCK_TICK = 15
 
-SCREEN = pygame.display.set_mode((8*SQUARE_SIDE, 8*SQUARE_SIDE + 200), pygame.RESIZABLE)
+SCREEN = pygame.display.set_mode((8*SQUARE_SIDE, 8*SQUARE_SIDE + CLOCK_SIDE), pygame.RESIZABLE)
 SCREEN_TITLE = 'Chess Game'
 
 pygame.display.set_icon(pygame.image.load('images/chess_icon.ico'))
+clock_image = pygame.image.load("images/clock.png")
+clock_image = pygame.transform.scale(clock_image, (440, CLOCK_SIDE))
 pygame.display.set_caption(SCREEN_TITLE)
 
 def resize_screen(square_side_len):
@@ -79,7 +82,7 @@ def paint_square(square, square_color):
     col = chessgame.FILES.index(square[0])
     row = 7-chessgame.RANKS.index(square[1])
     pygame.draw.rect(SCREEN, square_color, (SQUARE_SIDE*col,SQUARE_SIDE*row,SQUARE_SIDE,SQUARE_SIDE), 0)
-    pygame.draw.rect(SCREEN, CLOCK_BACKGROUND, (0, SQUARE_SIDE*8, SQUARE_SIDE*8 , SQUARE_SIDE+200),0)
+    pygame.draw.rect(SCREEN, CLOCK_BACKGROUND, (0, SQUARE_SIDE*8, SQUARE_SIDE*8 , SQUARE_SIDE+CLOCK_SIDE),0)
 
 def paint_dark_squares(square_color):
     for position in chessgame.single_gen(chessgame.DARK_SQUARES):
@@ -107,6 +110,7 @@ def print_board(board, color=chessgame.WHITE):
         printed_board = chessgame.rotate_board(board)
     
     print_empty_board()
+    SCREEN.blit(clock_image, (0,440))
     
     if chessgame.is_check(board, chessgame.WHITE):
         paint_square(chessgame.bb2str(chessgame.get_king(printed_board, chessgame.WHITE)), RED_CHECK)
@@ -244,13 +248,13 @@ def play_as(game, color):
         bug_file.write('\n-----------------------------\n\n')
         bug_file.close()
 
-def play_as_white(game=chessgame.CrazyHouse()):
+def play_as_white(game=chessgame.blitz()):
     return play_as(game, chessgame.WHITE)
 
-def play_as_black(game=chessgame.CrazyHouse()):
+def play_as_black(game=chessgame.blitz()):
     return play_as(game, chessgame.BLACK)
 
-def play_random_color(game=chessgame.CrazyHouse()):
+def play_random_color(game=chessgame.blitz()):
     color = choice([chessgame.WHITE, chessgame.BLACK])
     play_as(game, color)
 
