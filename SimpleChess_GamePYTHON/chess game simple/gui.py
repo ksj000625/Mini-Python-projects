@@ -110,13 +110,15 @@ def print_board(board, color=chessgame.WHITE):
         printed_board = chessgame.rotate_board(board)
     
     print_empty_board()
-    SCREEN.blit(clock_image, (0,440))
+    
     
     if chessgame.is_check(board, chessgame.WHITE):
         paint_square(chessgame.bb2str(chessgame.get_king(printed_board, chessgame.WHITE)), RED_CHECK)
     if chessgame.is_check(board, chessgame.BLACK):
         paint_square(chessgame.bb2str(chessgame.get_king(printed_board, chessgame.BLACK)), RED_CHECK)
     
+    SCREEN.blit(clock_image, (0,440))
+
     for position in chessgame.colored_piece_gen(printed_board, chessgame.KING, chessgame.BLACK):
         SCREEN.blit(pygame.transform.scale(BLACK_KING,   (SQUARE_SIDE,SQUARE_SIDE)), get_square_rect(chessgame.bb2str(position)))
     for position in chessgame.colored_piece_gen(printed_board, chessgame.QUEEN, chessgame.BLACK):
