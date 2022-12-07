@@ -1380,12 +1380,18 @@ def has_insufficient_material(game): # TODO: other insufficient positions
             return True
     return False
 
-def game_ended(game):
+def time_end(game, time):
+    return time <= 0 
+
+def game_ended(game, time1 = 1, time2 = 1):
     return is_checkmate(game, WHITE) or \
            is_checkmate(game, BLACK) or \
            is_stalemate(game) or \
            has_insufficient_material(game) or \
-           is_under_75_move_rule(game)
+            is_under_75_move_rule(game) or \
+            time_end(game, time1) or \
+            time_end(game, time2) 
+        
 
 def random_move(game, color):
     return choice(legal_moves(game, color))
@@ -1587,7 +1593,7 @@ def get_AI_move(game, depth=2):
 def print_outcome(game):
     print(get_outcome(game))
     
-def get_outcome(game):
+def get_outcome(game, time1, time2):
     if is_stalemate(game):
         return 'Draw by stalemate'
     if is_checkmate(game, WHITE):
@@ -1598,6 +1604,10 @@ def get_outcome(game):
         return 'Draw by insufficient material!'
     if is_under_75_move_rule(game):
         return 'Draw by 75-move rule!'
+    if time_end(game, time1):
+        return 'time over!! BLACK wins!'
+    if time_end(game, time2):
+        return 'time over!! WHITE wins!'
 
 def play_as_white(game=Game()):
     print('Playing as white!')

@@ -178,7 +178,7 @@ def play_as(game, color):
     ongoing = True
     joker = 0
 
-    time_a = 300
+    time_a = 10
     time_b = 300
     a_on = False
     b_on = True
@@ -188,31 +188,15 @@ def play_as(game, color):
             CLOCK.tick(CLOCK_TICK)
             print_board(game.board, color)
 
-            if time_a <= 0:
-                set_title(SCREEN_TITLE + ' - ' + chessgame.get_outcome(game))
-                ongoing = False
-
-            if time_b <= 0:
-                set_title(SCREEN_TITLE + ' - ' + chessgame.get_outcome(game))
-                ongoing = False
-            
-            if chessgame.game_ended(game):
-                set_title(SCREEN_TITLE + ' - ' + chessgame.get_outcome(game))
+            if chessgame.game_ended(game, time_a, time_b):
+                set_title(SCREEN_TITLE + ' - ' + chessgame.get_outcome(game, time_a, time_b))
                 ongoing = False
             
             if ongoing and game.to_move == chessgame.opposing_color(color):
                 game = make_AI_move(game, color)
 
-            if time_a <= 0:
-                set_title(SCREEN_TITLE + ' - ' + chessgame.get_outcome(game))
-                ongoing = False
-
-            if time_b <= 0:
-                set_title(SCREEN_TITLE + ' - ' + chessgame.get_outcome(game))
-                ongoing = False
-            
-            if chessgame.game_ended(game):
-                set_title(SCREEN_TITLE + ' - ' + chessgame.get_outcome(game))
+            if chessgame.game_ended(game, time_a, time_b):
+                set_title(SCREEN_TITLE + ' - ' + chessgame.get_outcome(game, time_a, time_b))
                 ongoing = False
              
             for event in pygame.event.get():
@@ -300,9 +284,6 @@ def play_as(game, color):
             # Format time into minutes:seconds
             time_a_str = "%d:%02d" % (int(time_a/60),int(time_a%60))
             time_b_str = "%d:%02d" % (int(time_b/60),int(time_b%60))
-
-            print(time_a)
-            print(time_b)
 
             time_a_txt = font.render(time_a_str, 1, (255, 255, 255))
             time_b_txt = font.render(time_b_str, 1, (255, 255, 255))
