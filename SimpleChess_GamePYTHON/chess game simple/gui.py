@@ -281,22 +281,9 @@ def play_as(game, color):
                         resize_screen(int(event.w/8.0))
                     print_board(game.board, color)
 
-            # Format time into minutes:seconds
-            time_a_str = "%d:%02d" % (int(time_a/60),int(time_a%60))
-            time_b_str = "%d:%02d" % (int(time_b/60),int(time_b%60))
-
-            time_a_txt = font.render(time_a_str, 1, (255, 255, 255))
-            time_b_txt = font.render(time_b_str, 1, (255, 255, 255))
-
-            time_a_rect = time_a_txt.get_rect()
-            time_a_rect.center = (120, 580)
-            time_b_rect = time_b_txt.get_rect()
-            time_b_rect.center = (330, 580)
-            
-            SCREEN.blit(time_a_txt, time_a_rect)
-            SCREEN.blit(time_b_txt, time_b_rect)
-            
-            pygame.display.update()
+            update_timer(time_a, time_b)
+            for i in range(350):
+                pygame.display.flip()
     except:
         print(format_exc(), file=stderr)
         bug_file = open('bug_report.txt', 'a')
@@ -307,6 +294,22 @@ def play_as(game, color):
         bug_file.write('\n\t'.join(game.position_history))
         bug_file.write('\n-----------------------------\n\n')
         bug_file.close()
+
+def update_timer(time_a, time_b):
+    # Format time into minutes:seconds
+    time_a_str = "%d:%02d" % (int(time_a/60),int(time_a%60))
+    time_b_str = "%d:%02d" % (int(time_b/60),int(time_b%60))
+
+    time_a_txt = font.render(time_a_str, 1, (255, 255, 255))
+    time_b_txt = font.render(time_b_str, 1, (255, 255, 255))
+
+    time_a_rect = time_a_txt.get_rect()
+    time_a_rect.center = (120, 580)
+    time_b_rect = time_b_txt.get_rect()
+    time_b_rect.center = (330, 580)
+            
+    SCREEN.blit(time_a_txt, time_a_rect)
+    SCREEN.blit(time_b_txt, time_b_rect)
 
 def play_as_white(game=chessgame.blitz()):
     return play_as(game, chessgame.WHITE)
