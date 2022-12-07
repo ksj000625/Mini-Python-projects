@@ -1,0 +1,32 @@
+----- 12/07/22 19:57:49 -----
+Traceback (most recent call last):
+  File "/Users/kimseongjin/Desktop/Mini-Python-projects/SimpleChess_GamePYTHON/chess game simple/gui.py", line 220, in play_as
+    leaving_square = coord2str(event.pos, color)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kimseongjin/Desktop/Mini-Python-projects/SimpleChess_GamePYTHON/chess game simple/gui.py", line 109, in coord2str
+    return chessgame.FILES[file_index] + chessgame.RANKS[rank_index]
+                                         ~~~~~~~~~~~~~~~^^^^^^^^^^^^
+IndexError: list index out of range
+
+Playing as BLACK:
+	e2e4
+	rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+	rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1
+-----------------------------
+
+----- 12/07/22 20:03:50 -----
+Traceback (most recent call last):
+  File "/Users/kimseongjin/Desktop/Mini-Python-projects/SimpleChess_GamePYTHON/chess game simple/gui.py", line 220, in play_as
+    leaving_square = coord2str(event.pos, color)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kimseongjin/Desktop/Mini-Python-projects/SimpleChess_GamePYTHON/chess game simple/gui.py", line 109, in coord2str
+    return chessgame.FILES[file_index] + chessgame.RANKS[rank_index]
+                                         ~~~~~~~~~~~~~~~^^^^^^^^^^^^
+IndexError: list index out of range
+
+Playing as BLACK:
+	e2e4
+	rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+	rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1
+-----------------------------
+

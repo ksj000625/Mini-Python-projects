@@ -4,12 +4,13 @@ Developed by: Frederico Jordan
 @author: fvj
 '''
 import pygame, chessgame
+from pygame.locals import *
 from random import choice
 from traceback import format_exc
 from sys import stderr
 from time import strftime
 from copy import deepcopy
-import os
+import os, sys
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
@@ -58,11 +59,15 @@ WHITE_PAWN   = pygame.image.load('images/white_pawn.png')
 WHITE_JOKER  = pygame.image.load('images/white_joker.png')
 
 CLOCK = pygame.time.Clock()
-CLOCK_TICK = 15
+CLOCK_TICK = 30
 
 SCREEN = pygame.display.set_mode((8*SQUARE_SIDE, 8*SQUARE_SIDE + CLOCK_SIDE), pygame.RESIZABLE)
 SCREEN_TITLE = 'Chess Game'
 
+# -----------clock setting-----------
+
+font = pygame.font.Font("fonts/BowlbyOneSC.ttf", 34)
+# -----------------------------------
 pygame.display.set_icon(pygame.image.load('images/chess_icon.ico'))
 clock_image = pygame.image.load("images/clock.png")
 clock_image = pygame.transform.scale(clock_image, (440, CLOCK_SIDE))
@@ -104,13 +109,13 @@ def coord2str(position, color=chessgame.WHITE):
         return chessgame.FILES[file_index] + chessgame.RANKS[rank_index]
     
 def print_board(board, color=chessgame.WHITE):
+
     if color == chessgame.WHITE:
         printed_board = board
     if color == chessgame.BLACK:
         printed_board = chessgame.rotate_board(board)
     
     print_empty_board()
-    
     
     if chessgame.is_check(board, chessgame.WHITE):
         paint_square(chessgame.bb2str(chessgame.get_king(printed_board, chessgame.WHITE)), RED_CHECK)
@@ -172,6 +177,11 @@ def play_as(game, color):
     run = True
     ongoing = True
     joker = 0
+
+    time_a = 300
+    time_b = 300
+    a_on = False
+    b_on = True
     
     try:
         while run:
@@ -192,6 +202,19 @@ def play_as(game, color):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
+                
+                if event.type == USEREVENT:
+                    if time_a > 0:
+                        time_a -= 1
+                    else:
+                        pygame.time.set_timer(USEREVENT, 0)
+
+                elif event.type == (USEREVENT + 1):
+                    if time_b > 0:
+                        time_b -= 1
+                    else:
+                        pygame.time.set_timer(USEREVENT, 0)
+                
                 #--------------------
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     leaving_square = coord2str(event.pos, color)
@@ -203,6 +226,24 @@ def play_as(game, color):
                         move = (chessgame.str2bb(leaving_square), chessgame.str2bb(arriving_square))
                         game = try_move(game, move)
                         print_board(game.board, color)
+                    
+                    if not a_on:
+                        # Set for 1 second (1000 milliseconds)
+                        pygame.time.set_timer(USEREVENT, 1000)
+                        pygame.time.set_timer(USEREVENT + 1, 0)
+                        b_on = False
+                        a_on = True
+                        print("A turned On")
+                        print("B turned Off")
+                    else:
+                        # The other one should turn on immediately
+                        pygame.time.set_timer(USEREVENT, 0)
+                        pygame.time.set_timer(USEREVENT + 1, 1000)
+                        b_on = True
+                        a_on = False
+                        print("B turned On")
+                        print("A turned Off")
+
                 #----------------------
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE or event.key == 113:
@@ -239,6 +280,26 @@ def play_as(game, color):
                     elif SCREEN.get_width() != event.w:
                         resize_screen(int(event.w/8.0))
                     print_board(game.board, color)
+
+            # Format time into minutes:seconds
+            time_a_str = "%d:%02d" % (int(time_a/60),int(time_a%60))
+            time_b_str = "%d:%02d" % (int(time_b/60),int(time_b%60))
+
+            print(time_a_str)
+            print(time_b_str)
+
+            time_a_txt = font.render(time_a_str, 1, (255, 255, 255))
+            time_b_txt = font.render(time_b_str, 1, (255, 255, 255))
+
+            time_a_rect = time_a_txt.get_rect()
+            time_a_rect.center = (110, 660)
+            time_b_rect = time_b_txt.get_rect()
+            time_b_rect.center = (110, 660)
+
+            SCREEN.blit(pygame.Surface(SCREEN.get_size()), pygame.Surface(SCREEN.get_size()).fill((0, 0, 0)))
+            SCREEN.blit(clock_image, clock_image.get_rect())
+            SCREEN.blit(time_a_txt, time_a_rect)
+            SCREEN.blit(time_b_txt, time_b_rect)
     except:
         print(format_exc(), file=stderr)
         bug_file = open('bug_report.txt', 'a')
