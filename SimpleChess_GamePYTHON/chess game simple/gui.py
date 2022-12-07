@@ -187,6 +187,14 @@ def play_as(game, color):
         while run:
             CLOCK.tick(CLOCK_TICK)
             print_board(game.board, color)
+
+            if time_a <= 0:
+                set_title(SCREEN_TITLE + ' - ' + chessgame.get_outcome(game))
+                ongoing = False
+
+            if time_b <= 0:
+                set_title(SCREEN_TITLE + ' - ' + chessgame.get_outcome(game))
+                ongoing = False
             
             if chessgame.game_ended(game):
                 set_title(SCREEN_TITLE + ' - ' + chessgame.get_outcome(game))
@@ -194,6 +202,14 @@ def play_as(game, color):
             
             if ongoing and game.to_move == chessgame.opposing_color(color):
                 game = make_AI_move(game, color)
+
+            if time_a <= 0:
+                set_title(SCREEN_TITLE + ' - ' + chessgame.get_outcome(game))
+                ongoing = False
+
+            if time_b <= 0:
+                set_title(SCREEN_TITLE + ' - ' + chessgame.get_outcome(game))
+                ongoing = False
             
             if chessgame.game_ended(game):
                 set_title(SCREEN_TITLE + ' - ' + chessgame.get_outcome(game))
