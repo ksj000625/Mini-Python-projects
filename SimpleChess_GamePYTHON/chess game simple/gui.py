@@ -285,21 +285,21 @@ def play_as(game, color):
             time_a_str = "%d:%02d" % (int(time_a/60),int(time_a%60))
             time_b_str = "%d:%02d" % (int(time_b/60),int(time_b%60))
 
-            print(time_a_str)
-            print(time_b_str)
+            print(time_a)
+            print(time_b)
 
             time_a_txt = font.render(time_a_str, 1, (255, 255, 255))
             time_b_txt = font.render(time_b_str, 1, (255, 255, 255))
 
             time_a_rect = time_a_txt.get_rect()
-            time_a_rect.center = (110, 660)
+            time_a_rect.center = (120, 580)
             time_b_rect = time_b_txt.get_rect()
-            time_b_rect.center = (110, 660)
-
-            SCREEN.blit(pygame.Surface(SCREEN.get_size()), pygame.Surface(SCREEN.get_size()).fill((0, 0, 0)))
-            SCREEN.blit(clock_image, clock_image.get_rect())
+            time_b_rect.center = (330, 580)
+            
             SCREEN.blit(time_a_txt, time_a_rect)
             SCREEN.blit(time_b_txt, time_b_rect)
+            
+            pygame.display.update()
     except:
         print(format_exc(), file=stderr)
         bug_file = open('bug_report.txt', 'a')
