@@ -182,9 +182,11 @@ def play_as(game, color):
     time_b = 300
     a_on = False
     b_on = True
+    for_check = 0
     
     try:
         while run:
+            
             CLOCK.tick(CLOCK_TICK)
             print_board(game.board, color)
 
@@ -193,7 +195,19 @@ def play_as(game, color):
                 ongoing = False
             
             if ongoing and game.to_move == chessgame.opposing_color(color):
+                print("AI Turn")
+                for_check = 0
                 game = make_AI_move(game, color)
+                continue
+            else:
+                print(for_check)
+                if for_check == 0:
+                    print("for_check is 0")
+                    # Set for 1 second (1000 milliseconds)
+                    pygame.time.set_timer(USEREVENT, 1000)
+                    pygame.time.set_timer(USEREVENT + 1, 0)
+
+
 
             if chessgame.game_ended(game, time_a, time_b):
                 set_title(SCREEN_TITLE + ' - ' + chessgame.get_outcome(game, time_a, time_b))
@@ -226,23 +240,25 @@ def play_as(game, color):
                         move = (chessgame.str2bb(leaving_square), chessgame.str2bb(arriving_square))
                         game = try_move(game, move)
                         print_board(game.board, color)
+                        break
                     
-                    if not a_on:
-                        # Set for 1 second (1000 milliseconds)
-                        pygame.time.set_timer(USEREVENT, 1000)
-                        pygame.time.set_timer(USEREVENT + 1, 0)
-                        b_on = False
-                        a_on = True
-                        print("A turned On")
-                        print("B turned Off")
-                    else:
-                        # The other one should turn on immediately
-                        pygame.time.set_timer(USEREVENT, 0)
-                        pygame.time.set_timer(USEREVENT + 1, 1000)
-                        b_on = True
-                        a_on = False
-                        print("B turned On")
-                        print("A turned Off")
+                    for_check = 0
+                    # if not a_on:
+                    #     # Set for 1 second (1000 milliseconds)
+                    #     pygame.time.set_timer(USEREVENT, 1000)
+                    #     pygame.time.set_timer(USEREVENT + 1, 0)
+                    #     b_on = False
+                    #     a_on = True
+                    #     print("A turned On")
+                    #     print("B turned Off")
+                    # else:
+                    #     # The other one should turn on immediately
+                    #     pygame.time.set_timer(USEREVENT, 0)
+                    #     pygame.time.set_timer(USEREVENT + 1, 1000)
+                    #     b_on = True
+                    #     a_on = False
+                    #     print("B turned On")
+                    #     print("A turned Off")
 
                 #----------------------
                 if event.type == pygame.KEYDOWN:
@@ -280,9 +296,10 @@ def play_as(game, color):
                     elif SCREEN.get_width() != event.w:
                         resize_screen(int(event.w/8.0))
                     print_board(game.board, color)
-
-            update_timer(time_a, time_b)
-            for i in range(350):
+            
+            for_check = for_check + 1
+            for i in range(50):
+                update_timer(time_a, time_b)
                 pygame.display.flip()
     except:
         print(format_exc(), file=stderr)

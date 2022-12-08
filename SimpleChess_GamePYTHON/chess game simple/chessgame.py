@@ -28,6 +28,7 @@ from random import choice
 from time import sleep, time
 import chess.variant
 import pygame
+from pygame.locals import *
 
 COLOR_MASK = 1 << 3
 WHITE = 0 << 3
@@ -1575,6 +1576,13 @@ def get_player_move(game):
     return move
 
 def get_AI_move(game, depth=2):
+
+    # The other one should turn on immediately
+    pygame.time.set_timer(USEREVENT, 0)
+    pygame.time.set_timer(USEREVENT + 1, 1000)
+    print("B turned On")
+    print("A turned Off")
+
     if verbose:
         print('Searching best move for white...' if game.to_move == WHITE else 'Searching best move for black...')
     start_time = time()
