@@ -65,7 +65,6 @@ SCREEN = pygame.display.set_mode((8*SQUARE_SIDE, 8*SQUARE_SIDE + CLOCK_SIDE), py
 SCREEN_TITLE = 'Chess Game'
 
 # -----------clock setting-----------
-
 font = pygame.font.Font("fonts/BowlbyOneSC.ttf", 34)
 # -----------------------------------
 pygame.display.set_icon(pygame.image.load('images/chess_icon.ico'))
@@ -298,7 +297,7 @@ def play_as(game, color):
                     print_board(game.board, color)
             
             for_check = for_check + 1
-            for i in range(50):
+            for i in range(100):
                 update_timer(time_a, time_b)
                 pygame.display.flip()
     except:
