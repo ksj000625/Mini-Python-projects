@@ -855,49 +855,49 @@ def rule4():
         TEXT_RECT.y = 220
         SCREEN.blit(TEXT, TEXT_RECT)
 
-        TEXT = get_font(30).render(
-            "Kering is a special move for the king, ", True, "white")
+        TEXT = get_font(25).render(
+            "Castling is a special move for the king, ", True, "white")
         TEXT_RECT = TEXT.get_rect()
         TEXT_RECT.centerx = round(400)
         TEXT_RECT.y = 280
         SCREEN.blit(TEXT, TEXT_RECT)
 
-        TEXT = get_font(30).render(
+        TEXT = get_font(25).render(
             "and will tie the rook and king together.", True, "white")
         TEXT_RECT = TEXT.get_rect()
         TEXT_RECT.centerx = round(400)
         TEXT_RECT.y = 310
         SCREEN.blit(TEXT, TEXT_RECT)
 
-        TEXT = get_font(30).render(
+        TEXT = get_font(25).render(
             "First, place the king two squares in front of the look king, ", True, "white")
         TEXT_RECT = TEXT.get_rect()
         TEXT_RECT.centerx = round(400)
         TEXT_RECT.y = 340
         SCREEN.blit(TEXT, TEXT_RECT)
 
-        TEXT = get_font(30).render(
+        TEXT = get_font(25).render(
             "then move it to the right next to or inside the rook.", True, "white")
         TEXT_RECT = TEXT.get_rect()
         TEXT_RECT.centerx = round(400)
         TEXT_RECT.y = 370
         SCREEN.blit(TEXT, TEXT_RECT)
 
-        TEXT = get_font(30).render(
+        TEXT = get_font(25).render(
             "At this time, you must move the king first, and you can ", True, "white")
         TEXT_RECT = TEXT.get_rect()
         TEXT_RECT.centerx = round(400)
         TEXT_RECT.y = 400
         SCREEN.blit(TEXT, TEXT_RECT)
 
-        TEXT = get_font(30).render(
+        TEXT = get_font(25).render(
             "move the rook after moving the king two squares.", True, "white")
         TEXT_RECT = TEXT.get_rect()
         TEXT_RECT.centerx = round(400)
         TEXT_RECT.y = 430
         SCREEN.blit(TEXT, TEXT_RECT)
 
-        TEXT = get_font(30).render(
+        TEXT = get_font(25).render(
             "The next chapter is an example of Castling.", True, "white")
         TEXT_RECT = TEXT.get_rect()
         TEXT_RECT.centerx = round(400)
