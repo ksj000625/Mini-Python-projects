@@ -1613,9 +1613,9 @@ def get_outcome(game, time1, time2):
     if is_under_75_move_rule(game):
         return 'Draw by 75-move rule!'
     if time_end(game, time1):
-        return 'time over!! BLACK wins!'
+        return 'time over!! Computer wins!'
     if time_end(game, time2):
-        return 'time over!! WHITE wins!'
+        return 'time over!! Player wins!'
 
 def play_as_white(game=Game()):
     print('Playing as white!')
