@@ -3,14 +3,16 @@ Developed by: Frederico Jordan
 
 @author: fvj
 '''
-import pygame, chessgame
+import pygame
+import chessgame
 from pygame.locals import *
 from random import choice
 from traceback import format_exc
 from sys import stderr
 from time import strftime
 from copy import deepcopy
-import os, sys
+import os
+import sys
 import tkinter as tk
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -21,13 +23,13 @@ SQUARE_SIDE = 95
 CLOCK_SIDE = 280
 AI_SEARCH_DEPTH = 2
 
-CLOCK_BACKGROUND = (0,0,0)
-RED_CHECK          = (240, 150, 150)
-WHITE              = (255, 255, 255)
-BLUE_LIGHT         = (140, 184, 219)
-BLUE_DARK          = (91,  131, 159)
-GRAY_LIGHT         = (240, 240, 240)
-GRAY_DARK          = (200, 200, 200)
+CLOCK_BACKGROUND = (0, 0, 0)
+RED_CHECK = (240, 150, 150)
+WHITE = (255, 255, 255)
+BLUE_LIGHT = (140, 184, 219)
+BLUE_DARK = (91,  131, 159)
+GRAY_LIGHT = (240, 240, 240)
+GRAY_DARK = (200, 200, 200)
 CHESSWEBSITE_LIGHT = (212, 202, 190)
 CHESSWEBSITE_DARK = (100,  92,  89)
 LICHESS_LIGHT = (240, 217, 181)
@@ -62,7 +64,8 @@ WHITE_JOKER = pygame.image.load('images/white_joker.png')
 CLOCK = pygame.time.Clock()
 CLOCK_TICK = 30
 
-SCREEN = pygame.display.set_mode((8*SQUARE_SIDE, 8*SQUARE_SIDE + CLOCK_SIDE), pygame.RESIZABLE)
+SCREEN = pygame.display.set_mode(
+    (8*SQUARE_SIDE, 8*SQUARE_SIDE + CLOCK_SIDE), pygame.RESIZABLE)
 SCREEN_TITLE = 'Chess Game'
 
 # -----------clock setting-----------
@@ -76,6 +79,7 @@ pygame.display.set_icon(pygame.image.load('images/chess_icon.ico'))
 
 play_mode = 0   # 0은 시작하기 전, 1은 classic, 2는 blitz
 ai_depth = 2    # easy: 2, normal: 3, hard: 4
+
 
 def resize_screen(square_side_len):
     global SQUARE_SIDE
@@ -93,8 +97,11 @@ def print_empty_board():
 def paint_square(square, square_color):
     col = chessgame.FILES.index(square[0])
     row = 7-chessgame.RANKS.index(square[1])
-    pygame.draw.rect(SCREEN, square_color, (SQUARE_SIDE*col,SQUARE_SIDE*row,SQUARE_SIDE,SQUARE_SIDE), 0)
-    pygame.draw.rect(SCREEN, CLOCK_BACKGROUND, (0, SQUARE_SIDE*8, SQUARE_SIDE*8 , SQUARE_SIDE+CLOCK_SIDE),0)
+    pygame.draw.rect(SCREEN, square_color, (SQUARE_SIDE*col,
+                     SQUARE_SIDE*row, SQUARE_SIDE, SQUARE_SIDE), 0)
+    pygame.draw.rect(SCREEN, CLOCK_BACKGROUND, (0, SQUARE_SIDE *
+                     8, SQUARE_SIDE*8, SQUARE_SIDE+CLOCK_SIDE), 0)
+
 
 def paint_dark_squares(square_color):
     for position in chessgame.single_gen(chessgame.DARK_SQUARES):
@@ -131,9 +138,10 @@ def print_board(board, color=chessgame.WHITE):
         paint_square(chessgame.bb2str(chessgame.get_king(
             printed_board, chessgame.WHITE)), RED_CHECK)
     if chessgame.is_check(board, chessgame.BLACK):
-        paint_square(chessgame.bb2str(chessgame.get_king(printed_board, chessgame.BLACK)), RED_CHECK)
-    
-    SCREEN.blit(clock_image, (0,440))
+        paint_square(chessgame.bb2str(chessgame.get_king(
+            printed_board, chessgame.BLACK)), RED_CHECK)
+
+    SCREEN.blit(clock_image, (0, 440))
 
     for position in chessgame.colored_piece_gen(printed_board, chessgame.KING, chessgame.BLACK):
         SCREEN.blit(pygame.transform.scale(BLACK_KING,   (SQUARE_SIDE,
@@ -189,7 +197,8 @@ def set_title(title):
 
 def make_AI_move(game, color):
     set_title(SCREEN_TITLE + ' - Calculating move...')
-    new_game = chessgame.make_move(game, chessgame.get_AI_move(game, AI_SEARCH_DEPTH))
+    new_game = chessgame.make_move(
+        game, chessgame.get_AI_move(game, AI_SEARCH_DEPTH))
     set_title(SCREEN_TITLE)
     print_board(new_game.board, color)
     return new_game
@@ -212,15 +221,16 @@ def play_as(game, color):
     a_on = False
     b_on = True
     for_check = 0
-    
+
     try:
         while run:
-            
+
             CLOCK.tick(CLOCK_TICK)
             print_board(game.board, color)
 
             if chessgame.game_ended(game, time_a, time_b):
-                set_title(SCREEN_TITLE + ' - ' + chessgame.get_outcome(game, time_a, time_b))
+                set_title(SCREEN_TITLE + ' - ' +
+                          chessgame.get_outcome(game, time_a, time_b))
                 ongoing = False
 
             if ongoing and game.to_move == chessgame.opposing_color(color):
@@ -236,16 +246,15 @@ def play_as(game, color):
                     pygame.time.set_timer(USEREVENT, 1000)
                     pygame.time.set_timer(USEREVENT + 1, 0)
 
-
-
             if chessgame.game_ended(game, time_a, time_b):
-                set_title(SCREEN_TITLE + ' - ' + chessgame.get_outcome(game, time_a, time_b))
+                set_title(SCREEN_TITLE + ' - ' +
+                          chessgame.get_outcome(game, time_a, time_b))
                 ongoing = False
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
-                
+
                 if event.type == USEREVENT:
                     if time_a > 0:
                         time_a -= 1
@@ -257,8 +266,8 @@ def play_as(game, color):
                         time_b -= 1
                     else:
                         pygame.time.set_timer(USEREVENT, 0)
-                
-                #--------------------
+
+                # --------------------
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     leaving_square = coord2str(event.pos, color)
 
@@ -271,7 +280,7 @@ def play_as(game, color):
                         game = try_move(game, move)
                         print_board(game.board, color)
                         break
-                    
+
                     for_check = 0
                     # if not a_on:
                     #     # Set for 1 second (1000 milliseconds)
@@ -290,7 +299,7 @@ def play_as(game, color):
                     #     print("B turned On")
                     #     print("A turned Off")
 
-                #----------------------
+                # ----------------------
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE or event.key == 113:
                         run = False
@@ -327,7 +336,7 @@ def play_as(game, color):
                     elif SCREEN.get_width() != event.w:
                         resize_screen(int(event.w/8.0))
                     print_board(game.board, color)
-            
+
             for_check = for_check + 1
             for i in range(100):
                 update_timer(time_a, time_b)
@@ -344,10 +353,11 @@ def play_as(game, color):
         bug_file.write('\n-----------------------------\n\n')
         bug_file.close()
 
+
 def update_timer(time_a, time_b):
     # Format time into minutes:seconds
-    time_a_str = "%d:%02d" % (int(time_a/60),int(time_a%60))
-    time_b_str = "%d:%02d" % (int(time_b/60),int(time_b%60))
+    time_a_str = "%d:%02d" % (int(time_a/60), int(time_a % 60))
+    time_b_str = "%d:%02d" % (int(time_b/60), int(time_b % 60))
 
     time_a_txt = font.render(time_a_str, 1, (255, 255, 255))
     time_b_txt = font.render(time_b_str, 1, (255, 255, 255))
@@ -356,15 +366,18 @@ def update_timer(time_a, time_b):
     time_a_rect.center = (120, 580)
     time_b_rect = time_b_txt.get_rect()
     time_b_rect.center = (330, 580)
-            
+
     SCREEN.blit(time_a_txt, time_a_rect)
     SCREEN.blit(time_b_txt, time_b_rect)
+
 
 def play_as_white(game=chessgame.Game()):
     return play_as(game, chessgame.WHITE)
 
+
 def play_as_black(game=chessgame.Game()):
     return play_as(game, chessgame.BLACK)
+
 
 def play_random_color(game=chessgame.Game()):
     color = choice([chessgame.WHITE, chessgame.BLACK])
@@ -441,12 +454,12 @@ def blitz():
         TEXT_RECT.y = 320
         SCREEN.blit(TEXT, TEXT_RECT)
 
-        BLITZ_START= Button(image=None, pos=(260, 500),
-                            text_input="START", font=get_font(50), base_color="White", hovering_color="Green")
+        BLITZ_START = Button(image=None, pos=(260, 500),
+                             text_input="START", font=get_font(50), base_color="White", hovering_color="Green")
         BLITZ_BACK = Button(image=None, pos=(500, 500),
                             text_input="BACK", font=get_font(50), base_color="White", hovering_color="Green")
 
-        for button in [BLITZ_START,BLITZ_BACK]:
+        for button in [BLITZ_START, BLITZ_BACK]:
             button.changeColor(BLITZ_MOUSE_POS)
             button.update(SCREEN)
 
@@ -461,6 +474,7 @@ def blitz():
                     blitz_level()
         pygame.display.update()
 
+
 def blitz_level():
     while True:
         BLITZ_MOUSE_POS = pygame.mouse.get_pos()
@@ -471,18 +485,17 @@ def blitz_level():
         BLITZ_RECT = BLITZ_TEXT.get_rect(center=(380, 110))
         SCREEN.blit(BLITZ_TEXT, BLITZ_RECT)
 
-
-        BLITZ_EASY= Button(image=None, pos=(380, 250),
+        BLITZ_EASY = Button(image=None, pos=(380, 250),
                             text_input="EASY", font=get_font(75), base_color="White", hovering_color="Green")
-        BLITZ_NORMAL= Button(image=None, pos=(380, 400),
-                            text_input="NORMAL", font=get_font(75), base_color="White", hovering_color="Green")
-        BLITZ_HARD= Button(image=None, pos=(380, 550),
+        BLITZ_NORMAL = Button(image=None, pos=(380, 400),
+                              text_input="NORMAL", font=get_font(75), base_color="White", hovering_color="Green")
+        BLITZ_HARD = Button(image=None, pos=(380, 550),
                             text_input="HARD", font=get_font(75), base_color="White", hovering_color="Green")
 
         BLITZ_BACK = Button(image=None, pos=(680, 700),
                             text_input="BACK", font=get_font(40), base_color="White", hovering_color="Green")
 
-        for button in [BLITZ_EASY, BLITZ_NORMAL,BLITZ_HARD,BLITZ_BACK]:
+        for button in [BLITZ_EASY, BLITZ_NORMAL, BLITZ_HARD, BLITZ_BACK]:
             button.changeColor(BLITZ_MOUSE_POS)
             button.update(SCREEN)
 
@@ -495,7 +508,7 @@ def blitz_level():
                     blitz()
         pygame.display.update()
 
-    
+
 def classic():
     while True:
         BLITZ_MOUSE_POS = pygame.mouse.get_pos()
@@ -506,17 +519,17 @@ def classic():
         CLASSIC_RECT = CLASSIC_TEXT.get_rect(center=(380, 110))
         SCREEN.blit(CLASSIC_TEXT, CLASSIC_RECT)
 
-        CLASSIC_EASY= Button(image=None, pos=(380, 250),
-                            text_input="EASY", font=get_font(75), base_color="White", hovering_color="Green")
-        CLASSIC_NORMAL= Button(image=None, pos=(380, 400),
-                            text_input="NORMAL", font=get_font(75), base_color="White", hovering_color="Green")
-        CLASSIC_HARD= Button(image=None, pos=(380, 550),
-                            text_input="HARD", font=get_font(75), base_color="White", hovering_color="Green")
+        CLASSIC_EASY = Button(image=None, pos=(380, 250),
+                              text_input="EASY", font=get_font(75), base_color="White", hovering_color="Green")
+        CLASSIC_NORMAL = Button(image=None, pos=(380, 400),
+                                text_input="NORMAL", font=get_font(75), base_color="White", hovering_color="Green")
+        CLASSIC_HARD = Button(image=None, pos=(380, 550),
+                              text_input="HARD", font=get_font(75), base_color="White", hovering_color="Green")
 
         CLASSIC_BACK = Button(image=None, pos=(680, 700),
-                            text_input="BACK", font=get_font(40), base_color="White", hovering_color="Green")
+                              text_input="BACK", font=get_font(40), base_color="White", hovering_color="Green")
 
-        for button in [CLASSIC_EASY, CLASSIC_NORMAL,CLASSIC_HARD,CLASSIC_BACK]:
+        for button in [CLASSIC_EASY, CLASSIC_NORMAL, CLASSIC_HARD, CLASSIC_BACK]:
             button.changeColor(BLITZ_MOUSE_POS)
             button.update(SCREEN)
 
@@ -642,13 +655,6 @@ def rule():
 def rule2():
     pygame.display.set_caption("CHESS GAME - RULE BOOK")
 
-    # Insert Image
-    ImgKing = pygame.image.load("images/KingMove.png")
-    ImgKing = pygame.transform.scale(ImgKing, (35, 35))
-    ImgKing_Rect = ImgKing.get_rect()
-    ImgKing_Rect.centerx = round(400)
-    ImgKing_Rect.y = 500
-
     while True:
         RULE_MOUSE_POS = pygame.mouse.get_pos()
 
@@ -674,17 +680,121 @@ def rule2():
         SCREEN.blit(TEXT, TEXT_RECT)
 
         TEXT = get_font(30).render(
-            "When it is your turn, you must move your pieces, ", True, "white")
+            "A player using white pieces is called 'white' ", True, "white")
         TEXT_RECT = TEXT.get_rect()
         TEXT_RECT.centerx = round(400)
         TEXT_RECT.y = 310
         SCREEN.blit(TEXT, TEXT_RECT)
 
         TEXT = get_font(30).render(
-            "and different pieces have different magic moves.", True, "white")
+            "and a player using black pieces is called 'black'.", True, "white")
         TEXT_RECT = TEXT.get_rect()
         TEXT_RECT.centerx = round(400)
         TEXT_RECT.y = 340
+        SCREEN.blit(TEXT, TEXT_RECT)
+
+        TEXT = get_font(30).render(
+            "When it is your turn, you must move your pieces, ", True, "white")
+        TEXT_RECT = TEXT.get_rect()
+        TEXT_RECT.centerx = round(400)
+        TEXT_RECT.y = 400
+        SCREEN.blit(TEXT, TEXT_RECT)
+
+        TEXT = get_font(30).render(
+            "and different pieces have different magic moves.", True, "white")
+        TEXT_RECT = TEXT.get_rect()
+        TEXT_RECT.centerx = round(400)
+        TEXT_RECT.y = 430
+        SCREEN.blit(TEXT, TEXT_RECT)
+
+        # Button
+        MAIN_MENU_BUTTON = Button(image=None, pos=(100, 700),
+                                  text_input="MENU", font=get_font(25), base_color="#d7fcd4", hovering_color="White")
+        NEXT_BUTTON = Button(image=None, pos=(700, 700),
+                             text_input="NEXT >", font=get_font(25), base_color="#d7fcd4", hovering_color="White")
+        PREVIOUS_BUTTON = Button(image=None, pos=(550, 700),
+                                 text_input="< PREVIOUS", font=get_font(25), base_color="#d7fcd4", hovering_color="White")
+        QUIT_BUTTON = Button(image=None, pos=(700, 100),
+                             text_input="QUIT", font=get_font(25), base_color="#d7fcd4", hovering_color="White")
+
+        for button in [MAIN_MENU_BUTTON, NEXT_BUTTON, QUIT_BUTTON, PREVIOUS_BUTTON]:
+            button.changeColor(RULE_MOUSE_POS)
+            button.update(SCREEN)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if MAIN_MENU_BUTTON.checkForInput(RULE_MOUSE_POS):
+                    main_menu()
+                if NEXT_BUTTON.checkForInput(RULE_MOUSE_POS):
+                    rule3()
+                if PREVIOUS_BUTTON.checkForInput(RULE_MOUSE_POS):
+                    rule()
+                if QUIT_BUTTON.checkForInput(RULE_MOUSE_POS):
+                    pygame.quit()
+                    sys.exit()
+        pygame.display.update()
+
+
+# Rule Book 3
+
+
+def rule3():
+    pygame.display.set_caption("CHESS GAME - RULE BOOK")
+
+    # Insert Image
+    ImgKing = pygame.image.load("images/King_move.png")
+    ImgKing = pygame.transform.scale(ImgKing, (200, 200))
+    ImgKing_Rect = ImgKing.get_rect()
+    ImgKing_Rect.x = 80
+    ImgKing_Rect.y = 200
+
+    ImgQueen = pygame.image.load("images/Queen_move.png")
+    ImgQueen = pygame.transform.scale(ImgQueen, (200, 200))
+    ImgQueen_Rect = ImgQueen.get_rect()
+    ImgQueen_Rect.x = 300
+    ImgQueen_Rect.y = 200
+
+    ImgRook = pygame.image.load("images/Rook_move.png")
+    ImgRook = pygame.transform.scale(ImgRook, (200, 200))
+    ImgRook_Rect = ImgRook.get_rect()
+    ImgRook_Rect.x = 520
+    ImgRook_Rect.y = 200
+
+    ImgBishop = pygame.image.load("images/Bishop_move.png")
+    ImgBishop = pygame.transform.scale(ImgBishop, (200, 200))
+    ImgBishop_Rect = ImgBishop.get_rect()
+    ImgBishop_Rect.x = 80
+    ImgBishop_Rect.y = 430
+
+    ImgKnight = pygame.image.load("images/Knight_move.png")
+    ImgKnight = pygame.transform.scale(ImgKnight, (200, 200))
+    ImgKnight_Rect = ImgKnight.get_rect()
+    ImgKnight_Rect.x = 300
+    ImgKnight_Rect.y = 430
+
+    ImgPawn = pygame.image.load("images/Pawn_move.png")
+    ImgPawn = pygame.transform.scale(ImgPawn, (200, 200))
+    ImgPawn_Rect = ImgPawn.get_rect()
+    ImgPawn_Rect.x = 520
+    ImgPawn_Rect.y = 430
+
+    while True:
+        RULE_MOUSE_POS = pygame.mouse.get_pos()
+
+        SCREEN.fill("BLACK")
+
+        MENU_TEXT = get_font(75).render("CHESS RULE", True, "#b68f40")
+        MENU_RECT = MENU_TEXT.get_rect(center=(380, 100))
+        SCREEN.blit(MENU_TEXT, MENU_RECT)
+
+        # TEXT
+        TEXT = get_font(30).render(
+            "Below is the magic of the pieces.", True, "white")
+        TEXT_RECT = TEXT.get_rect()
+        TEXT_RECT.centerx = round(400)
+        TEXT_RECT.y = 150
         SCREEN.blit(TEXT, TEXT_RECT)
 
         # Button
@@ -710,11 +820,16 @@ def rule2():
                 if NEXT_BUTTON.checkForInput(RULE_MOUSE_POS):
                     rule2()
                 if PREVIOUS_BUTTON.checkForInput(RULE_MOUSE_POS):
-                    rule()
+                    rule2()
                 if QUIT_BUTTON.checkForInput(RULE_MOUSE_POS):
                     pygame.quit()
                     sys.exit()
-        SCREEN.blit(ImgKing, (100, 500))
+        SCREEN.blit(ImgKing, ImgKing_Rect)
+        SCREEN.blit(ImgQueen, ImgQueen_Rect)
+        SCREEN.blit(ImgRook, ImgRook_Rect)
+        SCREEN.blit(ImgBishop, ImgBishop_Rect)
+        SCREEN.blit(ImgKnight, ImgKnight_Rect)
+        SCREEN.blit(ImgPawn, ImgPawn_Rect)
         pygame.display.update()
 
 
@@ -729,13 +844,15 @@ def main_menu():
         MENU_TEXT = get_font(100).render("CHESS GAME", True, "#b68f40")
         MENU_RECT = MENU_TEXT.get_rect(center=(380, 100))
         SCREEN.blit(MENU_TEXT, MENU_RECT)
-        BLITZ_BUTTON = Button(image=None, pos=(380, 450), 
-                            text_input="BLITZ", font=get_font(75), base_color="#d7fcd4", hovering_color="White")
-        CLASSIC_BUTTON = Button(image=None, pos=(380, 300), 
-                            text_input="CLASSIC", font=get_font(75), base_color="#d7fcd4", hovering_color="White")
-        EXIT_BUTTON = Button(image=None, pos=(680, 700), 
-                            text_input="EXIT", font=get_font(60), base_color="gray", hovering_color="White")  
-        for button in [BLITZ_BUTTON, CLASSIC_BUTTON, EXIT_BUTTON]:
+        BLITZ_BUTTON = Button(image=None, pos=(380, 450),
+                              text_input="BLITZ", font=get_font(75), base_color="#d7fcd4", hovering_color="White")
+        CLASSIC_BUTTON = Button(image=None, pos=(380, 300),
+                                text_input="CLASSIC", font=get_font(75), base_color="#d7fcd4", hovering_color="White")
+        HOW_TO_PLAY_BUTTON = Button(image=None, pos=(380, 600),
+                                    text_input="HOW TO PLAY", font=get_font(75), base_color="#d7fcd4", hovering_color="White")
+        EXIT_BUTTON = Button(image=None, pos=(680, 700),
+                             text_input="EXIT", font=get_font(60), base_color="gray", hovering_color="White")
+        for button in [BLITZ_BUTTON, CLASSIC_BUTTON, EXIT_BUTTON, HOW_TO_PLAY_BUTTON]:
             button.changeColor(MENU_MOUSE_POS)
             button.update(SCREEN)
         for event in pygame.event.get():
@@ -744,9 +861,11 @@ def main_menu():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if BLITZ_BUTTON.checkForInput(MENU_MOUSE_POS):
-                    blitz() 
+                    blitz()
                 if CLASSIC_BUTTON.checkForInput(MENU_MOUSE_POS):
-                    classic() 
+                    classic()
+                if HOW_TO_PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
+                    rule()
                 if EXIT_BUTTON.checkForInput(MENU_MOUSE_POS):
                     pygame.quit()
                     sys.exit()
