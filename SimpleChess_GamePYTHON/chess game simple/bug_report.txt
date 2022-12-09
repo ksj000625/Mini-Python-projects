@@ -373,3 +373,27 @@ Playing as WHITE:
 	rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
 -----------------------------
 
+----- 12/09/22 20:30:08 -----
+Traceback (most recent call last):
+  File "/Users/kimseongjin/Desktop/Mini-Python-projects/SimpleChess_GamePYTHON/chess game simple/gui.py", line 269, in play_as
+    move = (chessgame.str2bb(leaving_square),
+                             ^^^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'leaving_square' where it is not associated with a value
+
+Playing as WHITE:
+	
+	rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+-----------------------------
+
+----- 12/09/22 20:30:12 -----
+Traceback (most recent call last):
+  File "/Users/kimseongjin/Desktop/Mini-Python-projects/SimpleChess_GamePYTHON/chess game simple/gui.py", line 269, in play_as
+    move = (chessgame.str2bb(leaving_square),
+                             ^^^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'leaving_square' where it is not associated with a value
+
+Playing as WHITE:
+	
+	rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+-----------------------------
+

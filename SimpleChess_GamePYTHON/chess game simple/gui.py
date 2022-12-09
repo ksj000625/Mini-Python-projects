@@ -17,7 +17,7 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 pygame.init()
 
-SQUARE_SIDE = 65
+SQUARE_SIDE = 95
 CLOCK_SIDE = 280
 AI_SEARCH_DEPTH = 2
 
