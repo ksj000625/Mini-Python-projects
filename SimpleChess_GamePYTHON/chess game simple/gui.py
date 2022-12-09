@@ -355,12 +355,12 @@ def blitz():
         TEXT_RECT.y = 320
         SCREEN.blit(TEXT, TEXT_RECT)
 
-        BLITZ_BACK = Button(image=None, pos=(600, 500),
-                            text_input="BACK", font=get_font(50), base_color="White", hovering_color="Green")
-        BLITZ_GAME = Button(image=None, pos=(160, 500),
+        BLITZ_START= Button(image=None, pos=(260, 500),
                             text_input="START", font=get_font(50), base_color="White", hovering_color="Green")
+        BLITZ_BACK = Button(image=None, pos=(500, 500),
+                            text_input="BACK", font=get_font(50), base_color="White", hovering_color="Green")
 
-        for button in [BLITZ_GAME, BLITZ_BACK]:
+        for button in [BLITZ_START,BLITZ_BACK]:
             button.changeColor(BLITZ_MOUSE_POS)
             button.update(SCREEN)
 
@@ -371,8 +371,83 @@ def blitz():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if BLITZ_BACK.checkForInput(BLITZ_MOUSE_POS):
                     main_menu()
-                if BLITZ_GAME.checkForInput(BLITZ_MOUSE_POS):
-                    play_as_black()
+                if BLITZ_START.checkForInput(BLITZ_MOUSE_POS):
+                    blitz_level()
+        pygame.display.update()
+
+def blitz_level():
+    while True:
+        BLITZ_MOUSE_POS = pygame.mouse.get_pos()
+
+        SCREEN.fill("black")
+
+        BLITZ_TEXT = get_font(100).render("BLITZ", True, "#b68f40")
+        BLITZ_RECT = BLITZ_TEXT.get_rect(center=(380, 110))
+        SCREEN.blit(BLITZ_TEXT, BLITZ_RECT)
+
+
+        BLITZ_EASY= Button(image=None, pos=(380, 250),
+                            text_input="EASY", font=get_font(75), base_color="White", hovering_color="Green")
+        BLITZ_NORMAL= Button(image=None, pos=(380, 400),
+                            text_input="NORMAL", font=get_font(75), base_color="White", hovering_color="Green")
+        BLITZ_HARD= Button(image=None, pos=(380, 550),
+                            text_input="HARD", font=get_font(75), base_color="White", hovering_color="Green")
+
+        BLITZ_BACK = Button(image=None, pos=(680, 700),
+                            text_input="BACK", font=get_font(40), base_color="White", hovering_color="Green")
+
+        for button in [BLITZ_EASY, BLITZ_NORMAL,BLITZ_HARD,BLITZ_BACK]:
+            button.changeColor(BLITZ_MOUSE_POS)
+            button.update(SCREEN)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if BLITZ_BACK.checkForInput(BLITZ_MOUSE_POS):
+                    blitz()
+        pygame.display.update()
+
+    
+def classic():
+    while True:
+        BLITZ_MOUSE_POS = pygame.mouse.get_pos()
+
+        SCREEN.fill("black")
+
+        CLASSIC_TEXT = get_font(100).render("CLASSIC", True, "#b68f40")
+        CLASSIC_RECT = CLASSIC_TEXT.get_rect(center=(380, 110))
+        SCREEN.blit(CLASSIC_TEXT, CLASSIC_RECT)
+
+        CLASSIC_EASY= Button(image=None, pos=(380, 250),
+                            text_input="EASY", font=get_font(75), base_color="White", hovering_color="Green")
+        CLASSIC_NORMAL= Button(image=None, pos=(380, 400),
+                            text_input="NORMAL", font=get_font(75), base_color="White", hovering_color="Green")
+        CLASSIC_HARD= Button(image=None, pos=(380, 550),
+                            text_input="HARD", font=get_font(75), base_color="White", hovering_color="Green")
+
+        CLASSIC_BACK = Button(image=None, pos=(680, 700),
+                            text_input="BACK", font=get_font(40), base_color="White", hovering_color="Green")
+
+        for button in [CLASSIC_EASY, CLASSIC_NORMAL,CLASSIC_HARD,CLASSIC_BACK]:
+            button.changeColor(BLITZ_MOUSE_POS)
+            button.update(SCREEN)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if CLASSIC_BACK.checkForInput(BLITZ_MOUSE_POS):
+                    main_menu()
+                if CLASSIC_EASY.checkForInput(BLITZ_MOUSE_POS):
+                    play_as_white()
+                if CLASSIC_NORMAL.checkForInput(BLITZ_MOUSE_POS):
+                    play_as_white()
+                if CLASSIC_HARD.checkForInput(BLITZ_MOUSE_POS):
+                    play_as_white()
+
         pygame.display.update()
 
 
@@ -568,20 +643,13 @@ def main_menu():
         MENU_TEXT = get_font(100).render("CHESS GAME", True, "#b68f40")
         MENU_RECT = MENU_TEXT.get_rect(center=(380, 100))
         SCREEN.blit(MENU_TEXT, MENU_RECT)
-
-        # main_background=pygame.image.load('')
-        # SCREEN.blit(main_background,(0,0))
-
-        BLITZ_BUTTON = Button(image=None, pos=(380, 250),
-                              text_input="BLITZ", font=get_font(75), base_color="#d7fcd4", hovering_color="White")
-        CRAZYHOUSE_BUTTON = Button(image=None, pos=(380, 400),
-                                   text_input="CRAZYHOUSE", font=get_font(75), base_color="#d7fcd4", hovering_color="White")
-        QUIT_BUTTON = Button(image=None, pos=(380, 550),
-                             text_input="QUIT", font=get_font(75), base_color="#d7fcd4", hovering_color="White")
-        # 룰북 버튼
-        RULE_BUTTON = Button(image=None, pos=(700, 50),
-                             text_input="RULE", font=get_font(25), base_color="#d7fcd4", hovering_color="White")
-        for button in [BLITZ_BUTTON, CRAZYHOUSE_BUTTON, QUIT_BUTTON, RULE_BUTTON]:
+        BLITZ_BUTTON = Button(image=None, pos=(380, 450), 
+                            text_input="BLITZ", font=get_font(75), base_color="#d7fcd4", hovering_color="White")
+        CLASSIC_BUTTON = Button(image=None, pos=(380, 300), 
+                            text_input="CLASSIC", font=get_font(75), base_color="#d7fcd4", hovering_color="White")
+        EXIT_BUTTON = Button(image=None, pos=(680, 700), 
+                            text_input="EXIT", font=get_font(60), base_color="gray", hovering_color="White")  
+        for button in [BLITZ_BUTTON, CLASSIC_BUTTON, EXIT_BUTTON]:
             button.changeColor(MENU_MOUSE_POS)
             button.update(SCREEN)
         for event in pygame.event.get():
@@ -590,13 +658,10 @@ def main_menu():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if BLITZ_BUTTON.checkForInput(MENU_MOUSE_POS):
-                    blitz()
-                if CRAZYHOUSE_BUTTON.checkForInput(MENU_MOUSE_POS):
-                    crazyhouse()
-                # 룰북 클릭
-                if RULE_BUTTON.checkForInput(MENU_MOUSE_POS):
-                    rule()
-                if QUIT_BUTTON.checkForInput(MENU_MOUSE_POS):
+                    blitz() 
+                if CLASSIC_BUTTON.checkForInput(MENU_MOUSE_POS):
+                    classic() 
+                if EXIT_BUTTON.checkForInput(MENU_MOUSE_POS):
                     pygame.quit()
                     sys.exit()
         pygame.display.update()
