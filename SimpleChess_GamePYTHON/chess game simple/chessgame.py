@@ -27,6 +27,8 @@ from copy import deepcopy
 from random import choice
 from time import sleep, time
 import chess.variant
+import pygame
+from pygame.locals import *
 
 COLOR_MASK = 1 << 3
 WHITE = 0 << 3
@@ -283,9 +285,8 @@ class Game:
 
 # ================================
 
-# ========== CRAZYHOUSE GAME ==========
-
-class CrazyHouse:
+#========== blitz game ===========
+class blitz:
     def __init__(self, FEN=''):
         self.board = INITIAL_BOARD
         self.to_move = WHITE
@@ -293,10 +294,6 @@ class CrazyHouse:
         self.castling_rights = FULL_CASTLING_RIGHTS
         self.halfmove_clock = 0
         self.fullmove_number = 1
-        self.white_Pocket = chess.variant.CrazyhousePocket()
-        self.black_Pocket = chess.variant.CrazyhousePocket()
-        self.white_Pocket.reset()
-        self.black_Pocket.reset()
         
         self.position_history = []
         if FEN != '':
@@ -401,7 +398,6 @@ class CrazyHouse:
         self.fullmove_number = int(FEN_list[5])
 
 # ================================
-
 
 def get_piece(board, bitboard):
     return board[bb2index(bitboard)]
@@ -1265,12 +1261,18 @@ def has_insufficient_material(game): # TODO: other insufficient positions
             return True
     return False
 
-def game_ended(game):
+def time_end(game, time):
+    return time <= 0 
+
+def game_ended(game, time1 = 1, time2 = 1):
     return is_checkmate(game, WHITE) or \
            is_checkmate(game, BLACK) or \
            is_stalemate(game) or \
            has_insufficient_material(game) or \
-           is_under_75_move_rule(game)
+            is_under_75_move_rule(game) or \
+            time_end(game, time1) or \
+            time_end(game, time2) 
+        
 
 def random_move(game, color):
     return choice(legal_moves(game, color))
@@ -1454,6 +1456,13 @@ def get_player_move(game):
     return move
 
 def get_AI_move(game, depth=2):
+
+    # The other one should turn on immediately
+    pygame.time.set_timer(USEREVENT, 0)
+    pygame.time.set_timer(USEREVENT + 1, 1000)
+    print("B turned On")
+    print("A turned Off")
+
     if verbose:
         print('Searching best move for white...' if game.to_move == WHITE else 'Searching best move for black...')
     start_time = time()
@@ -1472,7 +1481,7 @@ def get_AI_move(game, depth=2):
 def print_outcome(game):
     print(get_outcome(game))
     
-def get_outcome(game):
+def get_outcome(game, time1, time2):
     if is_stalemate(game):
         return 'Draw by stalemate'
     if is_checkmate(game, WHITE):
@@ -1483,6 +1492,10 @@ def get_outcome(game):
         return 'Draw by insufficient material!'
     if is_under_75_move_rule(game):
         return 'Draw by 75-move rule!'
+    if time_end(game, time1):
+        return 'time over!! Computer wins!'
+    if time_end(game, time2):
+        return 'time over!! Player wins!'
 
 def play_as_white(game=Game()):
     print('Playing as white!')

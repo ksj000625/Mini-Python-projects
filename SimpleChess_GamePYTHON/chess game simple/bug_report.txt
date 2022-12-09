@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ----- 12/09/22 15:54:28 -----
 Traceback (most recent call last):
   File "c:\Users\evan2\Desktop\명지\2022 2학기\공개SW실무\공개SW 팀플\공개SW 팀프로젝트\프로젝트\Mini-Python-projects\SimpleChess_GamePYTHON\chess game simple\gui.py", line 221, in play_as
@@ -106,5 +107,67 @@ Playing as BLACK:
 	d2d4
 	rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
 	rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq d3 0 1
+=======
+----- 12/07/22 19:57:49 -----
+Traceback (most recent call last):
+  File "/Users/kimseongjin/Desktop/Mini-Python-projects/SimpleChess_GamePYTHON/chess game simple/gui.py", line 220, in play_as
+    leaving_square = coord2str(event.pos, color)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kimseongjin/Desktop/Mini-Python-projects/SimpleChess_GamePYTHON/chess game simple/gui.py", line 109, in coord2str
+    return chessgame.FILES[file_index] + chessgame.RANKS[rank_index]
+                                         ~~~~~~~~~~~~~~~^^^^^^^^^^^^
+IndexError: list index out of range
+
+Playing as BLACK:
+	e2e4
+	rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+	rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1
+-----------------------------
+
+----- 12/07/22 20:03:50 -----
+Traceback (most recent call last):
+  File "/Users/kimseongjin/Desktop/Mini-Python-projects/SimpleChess_GamePYTHON/chess game simple/gui.py", line 220, in play_as
+    leaving_square = coord2str(event.pos, color)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kimseongjin/Desktop/Mini-Python-projects/SimpleChess_GamePYTHON/chess game simple/gui.py", line 109, in coord2str
+    return chessgame.FILES[file_index] + chessgame.RANKS[rank_index]
+                                         ~~~~~~~~~~~~~~~^^^^^^^^^^^^
+IndexError: list index out of range
+
+Playing as BLACK:
+	e2e4
+	rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+	rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1
+-----------------------------
+
+----- 12/07/22 21:20:47 -----
+Traceback (most recent call last):
+  File "c:\Users\82106\Desktop\공개SW실무\Mini-Python-projects\SimpleChess_GamePYTHON\chess game simple\gui.py", line 192, in play_as
+    set_title(SCREEN_TITLE + ' - ' + chessgame.get_outcome(game))
+              ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TypeError: can only concatenate str (not "NoneType") to str
+
+Playing as BLACK:
+	d2d4 d7d5 c2c4 e7e5 d4e5
+	rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+	rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq d3 0 1
+	rnbqkbnr/ppp1pppp/8/3p4/3P4/8/PPP1PPPP/RNBQKBNR w KQkq d6 0 2
+	rnbqkbnr/ppp1pppp/8/3p4/2PP4/8/PP2PPPP/RNBQKBNR b KQkq c3 0 2
+	rnbqkbnr/ppp2ppp/8/3pp3/2PP4/8/PP2PPPP/RNBQKBNR w KQkq e6 0 3
+	rnbqkbnr/ppp2ppp/8/3pP3/2P5/8/PP2PPPP/RNBQKBNR b KQkq - 0 3
+-----------------------------
+
+----- 12/07/22 21:21:58 -----
+Traceback (most recent call last):
+  File "c:\Users\82106\Desktop\공개SW실무\Mini-Python-projects\SimpleChess_GamePYTHON\chess game simple\gui.py", line 192, in play_as
+    set_title(SCREEN_TITLE + ' - ' + chessgame.get_outcome(game))
+              ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TypeError: can only concatenate str (not "NoneType") to str
+
+Playing as BLACK:
+	g1f3
+	rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+	rnbqkbnr/pppppppp/8/8/8/5N2/PPPPPPPP/RNBQKB1R b KQkq - 1 1
+>>>>>>> feature/Blitz
 -----------------------------
 
