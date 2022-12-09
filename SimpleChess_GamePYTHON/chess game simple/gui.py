@@ -406,39 +406,154 @@ def crazyhouse():
 
         pygame.display.update()
 
-# 룰북
+# Rule Book
 
 
 def rule():
     pygame.display.set_caption("CHESS GAME - RULE BOOK")
 
     while True:
-        SCREEN.fill("BLACK")
-
         RULE_MOUSE_POS = pygame.mouse.get_pos()
 
-        MENU_TEXT = get_font(100).render("CHESS RULE", True, "#b68f40")
+        SCREEN.fill("BLACK")
+
+        MENU_TEXT = get_font(75).render("CHESS RULE", True, "#b68f40")
         MENU_RECT = MENU_TEXT.get_rect(center=(380, 100))
         SCREEN.blit(MENU_TEXT, MENU_RECT)
 
-        MAIN_MENU_BUTTON = Button(image=None, pos=(150, 100),
-                                  text_input="MENU", font=get_font(75), base_color="#d7fcd4", hovering_color="White")
-        QUIT_BUTTON = Button(image=None, pos=(150, 100),
-                             text_input="MENU", font=get_font(75), base_color="#d7fcd4", hovering_color="White")
+        # TEXT
+        TEXT = get_font(30).render(
+            "Capture all of your opponent's pieces ", True, "white")
+        TEXT_RECT = TEXT.get_rect()
+        TEXT_RECT.centerx = round(400)
+        TEXT_RECT.y = 220
+        SCREEN.blit(TEXT, TEXT_RECT)
 
-        for button in [MAIN_MENU_BUTTON, QUIT_BUTTON]:
+        TEXT = get_font(30).render(
+            "with a variety of pieces and tactics.", True, "white")
+        TEXT_RECT = TEXT.get_rect()
+        TEXT_RECT.centerx = round(400)
+        TEXT_RECT.y = 250
+        SCREEN.blit(TEXT, TEXT_RECT)
+
+        TEXT = get_font(30).render(
+            "If you catch your opponent's king, it's your win.", True, "white")
+        TEXT_RECT = TEXT.get_rect()
+        TEXT_RECT.centerx = round(400)
+        TEXT_RECT.y = 280
+        SCREEN.blit(TEXT, TEXT_RECT)
+
+        TEXT = get_font(30).render(
+            "Click NEXT for more explanation.", True, "white")
+        TEXT_RECT = TEXT.get_rect()
+        TEXT_RECT.centerx = round(400)
+        TEXT_RECT.y = 500
+        SCREEN.blit(TEXT, TEXT_RECT)
+
+        # Button
+        MAIN_MENU_BUTTON = Button(image=None, pos=(100, 700),
+                                  text_input="MENU", font=get_font(25), base_color="#d7fcd4", hovering_color="White")
+        NEXT_BUTTON = Button(image=None, pos=(700, 700),
+                             text_input="NEXT >", font=get_font(25), base_color="#d7fcd4", hovering_color="White")
+        QUIT_BUTTON = Button(image=None, pos=(700, 100),
+                             text_input="QUIT", font=get_font(25), base_color="#d7fcd4", hovering_color="White")
+
+        for button in [MAIN_MENU_BUTTON, NEXT_BUTTON, QUIT_BUTTON]:
             button.changeColor(RULE_MOUSE_POS)
             button.update(SCREEN)
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
         for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if MAIN_MENU_BUTTON.checkForInput(RULE_MOUSE_POS):
                     main_menu()
+                if NEXT_BUTTON.checkForInput(RULE_MOUSE_POS):
+                    rule2()
                 if QUIT_BUTTON.checkForInput(RULE_MOUSE_POS):
                     pygame.quit()
                     sys.exit()
+        pygame.display.update()
+
+# Rule Book 2
+
+
+def rule2():
+    pygame.display.set_caption("CHESS GAME - RULE BOOK")
+
+    # Insert Image
+    ImgKing = pygame.image.load("images/KingMove.png")
+    ImgKing = pygame.transform.scale(ImgKing, (35, 35))
+    ImgKing_Rect = ImgKing.get_rect()
+    ImgKing_Rect.centerx = round(400)
+    ImgKing_Rect.y = 500
+
+    while True:
+        RULE_MOUSE_POS = pygame.mouse.get_pos()
+
+        SCREEN.fill("BLACK")
+
+        MENU_TEXT = get_font(75).render("CHESS RULE", True, "#b68f40")
+        MENU_RECT = MENU_TEXT.get_rect(center=(380, 100))
+        SCREEN.blit(MENU_TEXT, MENU_RECT)
+
+        # TEXT
+        TEXT = get_font(30).render(
+            "Each player starts with one king and queen, ", True, "white")
+        TEXT_RECT = TEXT.get_rect()
+        TEXT_RECT.centerx = round(400)
+        TEXT_RECT.y = 220
+        SCREEN.blit(TEXT, TEXT_RECT)
+
+        TEXT = get_font(30).render(
+            "two rooks and bishops, two knights, and eight pawns.", True, "white")
+        TEXT_RECT = TEXT.get_rect()
+        TEXT_RECT.centerx = round(400)
+        TEXT_RECT.y = 250
+        SCREEN.blit(TEXT, TEXT_RECT)
+
+        TEXT = get_font(30).render(
+            "When it is your turn, you must move your pieces, ", True, "white")
+        TEXT_RECT = TEXT.get_rect()
+        TEXT_RECT.centerx = round(400)
+        TEXT_RECT.y = 310
+        SCREEN.blit(TEXT, TEXT_RECT)
+
+        TEXT = get_font(30).render(
+            "and different pieces have different magic moves.", True, "white")
+        TEXT_RECT = TEXT.get_rect()
+        TEXT_RECT.centerx = round(400)
+        TEXT_RECT.y = 340
+        SCREEN.blit(TEXT, TEXT_RECT)
+
+        # Button
+        MAIN_MENU_BUTTON = Button(image=None, pos=(100, 700),
+                                  text_input="MENU", font=get_font(25), base_color="#d7fcd4", hovering_color="White")
+        NEXT_BUTTON = Button(image=None, pos=(700, 700),
+                             text_input="NEXT >", font=get_font(25), base_color="#d7fcd4", hovering_color="White")
+        PREVIOUS_BUTTON = Button(image=None, pos=(550, 700),
+                                 text_input="< PREVIOUS", font=get_font(25), base_color="#d7fcd4", hovering_color="White")
+        QUIT_BUTTON = Button(image=None, pos=(700, 100),
+                             text_input="QUIT", font=get_font(25), base_color="#d7fcd4", hovering_color="White")
+
+        for button in [MAIN_MENU_BUTTON, NEXT_BUTTON, QUIT_BUTTON, PREVIOUS_BUTTON]:
+            button.changeColor(RULE_MOUSE_POS)
+            button.update(SCREEN)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if MAIN_MENU_BUTTON.checkForInput(RULE_MOUSE_POS):
+                    main_menu()
+                if NEXT_BUTTON.checkForInput(RULE_MOUSE_POS):
+                    rule2()
+                if PREVIOUS_BUTTON.checkForInput(RULE_MOUSE_POS):
+                    rule()
+                if QUIT_BUTTON.checkForInput(RULE_MOUSE_POS):
+                    pygame.quit()
+                    sys.exit()
+        SCREEN.blit(ImgKing, (100, 500))
         pygame.display.update()
 
 
@@ -464,8 +579,8 @@ def main_menu():
         QUIT_BUTTON = Button(image=None, pos=(380, 550),
                              text_input="QUIT", font=get_font(75), base_color="#d7fcd4", hovering_color="White")
         # 룰북 버튼
-        RULE_BUTTON = Button(image=None, pos=(200, 150),
-                             text_input="RULE", font=get_font(75), base_color="#d7fcd4", hovering_color="White")
+        RULE_BUTTON = Button(image=None, pos=(700, 50),
+                             text_input="RULE", font=get_font(25), base_color="#d7fcd4", hovering_color="White")
         for button in [BLITZ_BUTTON, CRAZYHOUSE_BUTTON, QUIT_BUTTON, RULE_BUTTON]:
             button.changeColor(MENU_MOUSE_POS)
             button.update(SCREEN)

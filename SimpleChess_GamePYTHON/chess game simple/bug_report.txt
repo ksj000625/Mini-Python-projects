@@ -1,0 +1,36 @@
+----- 12/09/22 15:54:28 -----
+Traceback (most recent call last):
+  File "c:\Users\evan2\Desktop\명지\2022 2학기\공개SW실무\공개SW 팀플\공개SW 팀프로젝트\프로젝트\Mini-Python-projects\SimpleChess_GamePYTHON\chess game simple\gui.py", line 221, in play_as
+    move = (chess.str2bb(leaving_square),
+UnboundLocalError: local variable 'leaving_square' referenced before assignment
+
+Playing as BLACK:
+	d2d4
+	rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+	rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq d3 0 1
+-----------------------------
+
+----- 12/09/22 15:54:30 -----
+Traceback (most recent call last):
+  File "c:\Users\evan2\Desktop\명지\2022 2학기\공개SW실무\공개SW 팀플\공개SW 팀프로젝트\프로젝트\Mini-Python-projects\SimpleChess_GamePYTHON\chess game simple\gui.py", line 221, in play_as
+    move = (chess.str2bb(leaving_square),
+UnboundLocalError: local variable 'leaving_square' referenced before assignment
+
+Playing as BLACK:
+	d2d4
+	rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+	rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq d3 0 1
+-----------------------------
+
+----- 12/09/22 16:00:17 -----
+Traceback (most recent call last):
+  File "c:\Users\evan2\Desktop\명지\2022 2학기\공개SW실무\공개SW 팀플\공개SW 팀프로젝트\프로젝트\Mini-Python-projects\SimpleChess_GamePYTHON\chess game simple\gui.py", line 221, in play_as
+    move = (chess.str2bb(leaving_square),
+UnboundLocalError: local variable 'leaving_square' referenced before assignment
+
+Playing as BLACK:
+	c2c4
+	rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+	rnbqkbnr/pppppppp/8/8/2P5/8/PP1PPPPP/RNBQKBNR b KQkq c3 0 1
+-----------------------------
+
