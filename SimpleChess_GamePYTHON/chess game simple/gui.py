@@ -818,7 +818,7 @@ def rule3():
                 if MAIN_MENU_BUTTON.checkForInput(RULE_MOUSE_POS):
                     main_menu()
                 if NEXT_BUTTON.checkForInput(RULE_MOUSE_POS):
-                    rule2()
+                    rule4()
                 if PREVIOUS_BUTTON.checkForInput(RULE_MOUSE_POS):
                     rule2()
                 if QUIT_BUTTON.checkForInput(RULE_MOUSE_POS):
@@ -830,6 +830,162 @@ def rule3():
         SCREEN.blit(ImgBishop, ImgBishop_Rect)
         SCREEN.blit(ImgKnight, ImgKnight_Rect)
         SCREEN.blit(ImgPawn, ImgPawn_Rect)
+        pygame.display.update()
+
+# Rule Book
+
+
+def rule4():
+    pygame.display.set_caption("CHESS GAME - RULE BOOK")
+
+    while True:
+        RULE_MOUSE_POS = pygame.mouse.get_pos()
+
+        SCREEN.fill("BLACK")
+
+        MENU_TEXT = get_font(75).render("CHESS RULE", True, "#b68f40")
+        MENU_RECT = MENU_TEXT.get_rect(center=(380, 100))
+        SCREEN.blit(MENU_TEXT, MENU_RECT)
+
+        # TEXT
+        TEXT = get_font(30).render(
+            "Castling", True, "white")
+        TEXT_RECT = TEXT.get_rect()
+        TEXT_RECT.centerx = round(400)
+        TEXT_RECT.y = 220
+        SCREEN.blit(TEXT, TEXT_RECT)
+
+        TEXT = get_font(30).render(
+            "Kering is a special move for the king, ", True, "white")
+        TEXT_RECT = TEXT.get_rect()
+        TEXT_RECT.centerx = round(400)
+        TEXT_RECT.y = 280
+        SCREEN.blit(TEXT, TEXT_RECT)
+
+        TEXT = get_font(30).render(
+            "and will tie the rook and king together.", True, "white")
+        TEXT_RECT = TEXT.get_rect()
+        TEXT_RECT.centerx = round(400)
+        TEXT_RECT.y = 310
+        SCREEN.blit(TEXT, TEXT_RECT)
+
+        TEXT = get_font(30).render(
+            "First, place the king two squares in front of the look king, ", True, "white")
+        TEXT_RECT = TEXT.get_rect()
+        TEXT_RECT.centerx = round(400)
+        TEXT_RECT.y = 340
+        SCREEN.blit(TEXT, TEXT_RECT)
+
+        TEXT = get_font(30).render(
+            "then move it to the right next to or inside the rook.", True, "white")
+        TEXT_RECT = TEXT.get_rect()
+        TEXT_RECT.centerx = round(400)
+        TEXT_RECT.y = 370
+        SCREEN.blit(TEXT, TEXT_RECT)
+
+        TEXT = get_font(30).render(
+            "At this time, you must move the king first, and you can ", True, "white")
+        TEXT_RECT = TEXT.get_rect()
+        TEXT_RECT.centerx = round(400)
+        TEXT_RECT.y = 400
+        SCREEN.blit(TEXT, TEXT_RECT)
+
+        TEXT = get_font(30).render(
+            "move the rook after moving the king two squares.", True, "white")
+        TEXT_RECT = TEXT.get_rect()
+        TEXT_RECT.centerx = round(400)
+        TEXT_RECT.y = 430
+        SCREEN.blit(TEXT, TEXT_RECT)
+
+        TEXT = get_font(30).render(
+            "The next chapter is an example of Castling.", True, "white")
+        TEXT_RECT = TEXT.get_rect()
+        TEXT_RECT.centerx = round(400)
+        TEXT_RECT.y = 490
+        SCREEN.blit(TEXT, TEXT_RECT)
+
+        # Button
+        MAIN_MENU_BUTTON = Button(image=None, pos=(100, 700),
+                                  text_input="MENU", font=get_font(25), base_color="#d7fcd4", hovering_color="White")
+        NEXT_BUTTON = Button(image=None, pos=(700, 700),
+                             text_input="NEXT >", font=get_font(25), base_color="#d7fcd4", hovering_color="White")
+        PREVIOUS_BUTTON = Button(image=None, pos=(550, 700),
+                                 text_input="< PREVIOUS", font=get_font(25), base_color="#d7fcd4", hovering_color="White")
+        QUIT_BUTTON = Button(image=None, pos=(700, 100),
+                             text_input="QUIT", font=get_font(25), base_color="#d7fcd4", hovering_color="White")
+
+        for button in [MAIN_MENU_BUTTON, NEXT_BUTTON, QUIT_BUTTON, PREVIOUS_BUTTON]:
+            button.changeColor(RULE_MOUSE_POS)
+            button.update(SCREEN)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if MAIN_MENU_BUTTON.checkForInput(RULE_MOUSE_POS):
+                    main_menu()
+                if NEXT_BUTTON.checkForInput(RULE_MOUSE_POS):
+                    rule5()
+                if PREVIOUS_BUTTON.checkForInput(RULE_MOUSE_POS):
+                    rule3()
+                if QUIT_BUTTON.checkForInput(RULE_MOUSE_POS):
+                    pygame.quit()
+                    sys.exit()
+        pygame.display.update()
+
+# Rule Book 5
+
+
+def rule5():
+    pygame.display.set_caption("CHESS GAME - RULE BOOK")
+
+    # Insert Image
+    Imgcastling1 = pygame.image.load("images/castling_1.png")
+    Imgcastling1 = pygame.transform.scale(Imgcastling1, (300, 300))
+    Imgcastling1_Rect = Imgcastling1.get_rect()
+    Imgcastling1_Rect.x = 50
+    Imgcastling1_Rect.y = 200
+
+    Imgcastling2 = pygame.image.load("images/castling_2.png")
+    Imgcastling2 = pygame.transform.scale(Imgcastling2, (300, 300))
+    Imgcastling2_Rect = Imgcastling2.get_rect()
+    Imgcastling2_Rect.x = 400
+    Imgcastling2_Rect.y = 200
+
+    while True:
+        RULE_MOUSE_POS = pygame.mouse.get_pos()
+
+        SCREEN.fill("BLACK")
+
+        MENU_TEXT = get_font(75).render("CHESS RULE", True, "#b68f40")
+        MENU_RECT = MENU_TEXT.get_rect(center=(380, 100))
+        SCREEN.blit(MENU_TEXT, MENU_RECT)
+
+        # Button
+        MAIN_MENU_BUTTON = Button(image=None, pos=(100, 700),
+                                  text_input="MENU", font=get_font(25), base_color="#d7fcd4", hovering_color="White")
+        PREVIOUS_BUTTON = Button(image=None, pos=(550, 700),
+                                 text_input="< PREVIOUS", font=get_font(25), base_color="#d7fcd4", hovering_color="White")
+        QUIT_BUTTON = Button(image=None, pos=(700, 100),
+                             text_input="QUIT", font=get_font(25), base_color="#d7fcd4", hovering_color="White")
+
+        for button in [MAIN_MENU_BUTTON, QUIT_BUTTON, PREVIOUS_BUTTON]:
+            button.changeColor(RULE_MOUSE_POS)
+            button.update(SCREEN)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if MAIN_MENU_BUTTON.checkForInput(RULE_MOUSE_POS):
+                    main_menu()
+                if PREVIOUS_BUTTON.checkForInput(RULE_MOUSE_POS):
+                    rule4()
+                if QUIT_BUTTON.checkForInput(RULE_MOUSE_POS):
+                    pygame.quit()
+                    sys.exit()
+        SCREEN.blit(Imgcastling1, Imgcastling1_Rect)
+        SCREEN.blit(Imgcastling2, Imgcastling2_Rect)
         pygame.display.update()
 
 
