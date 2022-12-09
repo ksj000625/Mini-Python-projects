@@ -61,6 +61,8 @@ SCREEN_TITLE = 'Chess Game'
 pygame.display.set_caption(SCREEN_TITLE)
 pygame.display.set_icon(pygame.image.load('images/chess_icon.ico'))
 
+play_mode = 0   # 0은 시작하기 전, 1은 classic, 2는 blitz
+ai_depth = 2    # easy: 2, normal: 3, hard: 4
 
 def resize_screen(square_side_len):
     global SQUARE_SIDE
@@ -442,11 +444,11 @@ def classic():
                 if CLASSIC_BACK.checkForInput(BLITZ_MOUSE_POS):
                     main_menu()
                 if CLASSIC_EASY.checkForInput(BLITZ_MOUSE_POS):
-                    play_as_white()
+                    play_random_color()
                 if CLASSIC_NORMAL.checkForInput(BLITZ_MOUSE_POS):
-                    play_as_white()
+                    play_random_color()
                 if CLASSIC_HARD.checkForInput(BLITZ_MOUSE_POS):
-                    play_as_white()
+                    play_random_color()
 
         pygame.display.update()
 
