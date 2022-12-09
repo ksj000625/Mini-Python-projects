@@ -158,84 +158,75 @@ def play_as(game, color):
     run = True
     ongoing = True
     joker = 0
-    
-    try:
-        while run:
-            CLOCK.tick(CLOCK_TICK)
-            print_board(game.board, color)
-            
-            if chess.game_ended(game):
-                set_title(SCREEN_TITLE + ' - ' + chess.get_outcome(game))
-                ongoing = False
-            
-            if ongoing and game.to_move == chess.opposing_color(color):
-                game = make_AI_move(game, color)
-            
-            if chess.game_ended(game):
-                set_title(SCREEN_TITLE + ' - ' + chess.get_outcome(game))
-                ongoing = False
 
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    run = False
+    while run:
+        CLOCK.tick(CLOCK_TICK)
+        print_board(game.board, color)
+
+        if chess.game_ended(game):
+            set_title(SCREEN_TITLE + ' - ' + chess.get_outcome(game))
+            ongoing = False
+            
+        if ongoing and game.to_move == chess.opposing_color(color):
+            game = make_AI_move(game, color)
+            
+        if chess.game_ended(game):
+            set_title(SCREEN_TITLE + ' - ' + chess.get_outcome(game))
+            ongoing = False
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
                 
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    leaving_square = coord2str(event.pos, color)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                leaving_square = coord2str(event.pos, color)
+                   
+            if event.type == pygame.MOUSEBUTTONUP:
+                arriving_square = coord2str(event.pos, color)
                     
-                if event.type == pygame.MOUSEBUTTONUP:
-                    arriving_square = coord2str(event.pos, color)
-                    
-                    if ongoing and game.to_move == color:
-                        move = (chess.str2bb(leaving_square), chess.str2bb(arriving_square))
-                        game = try_move(game, move)
-                        print_board(game.board, color)
-                
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE or event.key == 113:
-                        run = False
-                    if event.key == 104 and ongoing: # H key
-                        game = make_AI_move(game, color)
-                    if event.key == 117: # U key
-                        game = chess.unmake_move(game)
-                        game = chess.unmake_move(game)
-                        set_title(SCREEN_TITLE)
-                        print_board(game.board, color)
-                        ongoing = True
-                    if event.key == 99: # C key
-                        global BOARD_COLOR
-                        new_colors = deepcopy(BOARD_COLORS)
-                        new_colors.remove(BOARD_COLOR)
-                        BOARD_COLOR = choice(new_colors)
-                        print_board(game.board, color)
-                    if event.key == 112 or event.key == 100: # P or D key
-                        print(game.get_move_list() + '\n')
-                        print('\n'.join(game.position_history))
-                    if event.key == 101: # E key
-                        print('eval = ' + str(chess.evaluate_game(game)/100))
-                    if event.key == 106: # J key
-                        joker += 1
-                        if joker == 13 and chess.get_queen(game.board, color):
-                            queen_index = chess.bb2index(chess.get_queen(game.board, color))
-                            game.board[queen_index] = color|chess.JOKER
-                            print_board(game.board, color)
-                
-                if event.type == pygame.VIDEORESIZE:
-                    if SCREEN.get_height() != event.h:
-                        resize_screen(int(event.h/8.0))
-                    elif SCREEN.get_width() != event.w:
-                        resize_screen(int(event.w/8.0))
+                if ongoing and game.to_move == color:
+                    move = (chess.str2bb(leaving_square), chess.str2bb(arriving_square))
+                    game = try_move(game, move)
                     print_board(game.board, color)
-    except:
-        print(format_exc(), file=stderr)
-        bug_file = open('bug_report.txt', 'a')
-        bug_file.write('----- ' + strftime('%x %X') + ' -----\n')
-        bug_file.write(format_exc())
-        bug_file.write('\nPlaying as WHITE:\n\t' if color == chess.WHITE else '\nPlaying as BLACK:\n\t')
-        bug_file.write(game.get_move_list() + '\n\t')
-        bug_file.write('\n\t'.join(game.position_history))
-        bug_file.write('\n-----------------------------\n\n')
-        bug_file.close()
+                
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE or event.key == 113:
+                    run = False
+                if event.key == 104 and ongoing: # H key
+                    game = make_AI_move(game, color)
+                if event.key == 117: # U key
+                    game = chess.unmake_move(game)
+                    game = chess.unmake_move(game)
+                    set_title(SCREEN_TITLE)
+                    print_board(game.board, color)
+                    ongoing = True
+                if event.key == 99: # C key
+                    global BOARD_COLOR
+                    new_colors = deepcopy(BOARD_COLORS)
+                    new_colors.remove(BOARD_COLOR)
+                    BOARD_COLOR = choice(new_colors)
+                    print_board(game.board, color)
+                if event.key == 112 or event.key == 100: # P or D key
+                    print(game.get_move_list() + '\n')
+                    print('\n'.join(game.position_history))
+                if event.key == 101: # E key
+                    print('eval = ' + str(chess.evaluate_game(game)/100))
+                if event.key == 106: # J key
+                    joker += 1
+                    if joker == 13 and chess.get_queen(game.board, color):
+                        queen_index = chess.bb2index(chess.get_queen(game.board, color))
+                        game.board[queen_index] = color|chess.JOKER
+                        print_board(game.board, color)
+                
+            if event.type == pygame.VIDEORESIZE:
+                if SCREEN.get_height() != event.h:
+                    resize_screen(int(event.h/8.0))
+                elif SCREEN.get_width() != event.w:
+                    resize_screen(int(event.w/8.0))
+                print_board(game.board, color)
 
+    pygame.display.update
+    
 def play_as_white(game=chess.Game()):
     return play_as(game, chess.WHITE)
 
@@ -246,7 +237,7 @@ def play_random_color(game=chess.Game()):
     color = choice([chess.WHITE, chess.BLACK])
     play_as(game, color)
 
-#play_as_white()
+# play_as_white()
 
 
 def get_font(size): 
@@ -294,19 +285,19 @@ def blitz():
 
         TEXT=get_font(40).render("Blitz chess simply refers to a game of", True, "white")
         TEXT_RECT = TEXT.get_rect()
-        TEXT_RECT.centerx=round(400)
+        TEXT_RECT.x=90
         TEXT_RECT.y=220
         SCREEN.blit(TEXT, TEXT_RECT)
 
         TEXT=get_font(40).render("chess that has a fast time control.", True, "white")
         TEXT_RECT = TEXT.get_rect()
-        TEXT_RECT.centerx=round(400)
+        TEXT_RECT.x=120
         TEXT_RECT.y=260
         SCREEN.blit(TEXT, TEXT_RECT)
 
         TEXT=get_font(40).render("Each player is given 10 minutes or less.", True, "white")
         TEXT_RECT = TEXT.get_rect()
-        TEXT_RECT.centerx=round(400)
+        TEXT_RECT.x=90
         TEXT_RECT.y=320
         SCREEN.blit(TEXT, TEXT_RECT)
 
@@ -327,38 +318,30 @@ def blitz():
                 if BLITZ_BACK.checkForInput(BLITZ_MOUSE_POS):
                     main_menu()
                 if BLITZ_GAME.checkForInput(BLITZ_MOUSE_POS):
-                    play_as_black()
+                    play_as_white()
         pygame.display.update()
 
-def crazyhouse():
+def rules():
     while True:
         CRAZY_MOUSE_POS = pygame.mouse.get_pos()
 
         SCREEN.fill("black")
 
-        CRAZY_TEXT = get_font(100).render("CRAZY HOUSE", True, "#b68f40")
-        CRAZY_RECT = CRAZY_TEXT.get_rect(center=(380, 110))
-        SCREEN.blit(CRAZY_TEXT, CRAZY_RECT)
 
-        CRAZY_BACK = Button(image=None, pos=(600, 500), 
-                            text_input="BACK", font=get_font(50), base_color="White", hovering_color="Green")
-        CRAZY_GAME=Button(image=None, pos=(160, 500), 
-                            text_input="START", font=get_font(50), base_color="White", hovering_color="Green")                    
+        RULE_BACK = Button(image=None, pos=(380, 500), 
+                            text_input="BACK", font=get_font(50), base_color="White", hovering_color="Green")               
 
-        CRAZY_BACK.changeColor(CRAZY_MOUSE_POS)
-        CRAZY_GAME.changeColor(CRAZY_MOUSE_POS)
-        CRAZY_BACK.update(SCREEN)
-        CRAZY_GAME.update(SCREEN)
+        RULE_BACK.changeColor(CRAZY_MOUSE_POS)
+        RULE_BACK.update(SCREEN)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if CRAZY_BACK.checkForInput(CRAZY_MOUSE_POS):
+                if RULE_BACK.checkForInput(CRAZY_MOUSE_POS):
                     main_menu()
-
-        pygame.display.update()        
+        pygame.display.update()
 
 
 def main_menu():
@@ -366,23 +349,17 @@ def main_menu():
 
     while True:
         SCREEN.fill("black")  
-
         MENU_MOUSE_POS = pygame.mouse.get_pos()
-
         MENU_TEXT = get_font(100).render("CHESS GAME", True, "#b68f40")
         MENU_RECT = MENU_TEXT.get_rect(center=(380, 100))
         SCREEN.blit(MENU_TEXT, MENU_RECT)
-        
-        # main_background=pygame.image.load('')
-        # SCREEN.blit(main_background,(0,0))
-
-        BLITZ_BUTTON = Button(image=None, pos=(380, 250), 
+        BLITZ_BUTTON = Button(image=None, pos=(380, 400), 
                             text_input="BLITZ", font=get_font(75), base_color="#d7fcd4", hovering_color="White")
-        CRAZYHOUSE_BUTTON = Button(image=None, pos=(380, 400), 
-                            text_input="CRAZYHOUSE", font=get_font(75), base_color="#d7fcd4", hovering_color="White")
-        QUIT_BUTTON = Button(image=None, pos=(380, 550), 
-                            text_input="QUIT", font=get_font(75), base_color="#d7fcd4", hovering_color="White")
-        for button in [BLITZ_BUTTON, CRAZYHOUSE_BUTTON, QUIT_BUTTON]:
+        RULE_BUTTON = Button(image=None, pos=(380, 300), 
+                            text_input="CHESS RULES", font=get_font(75), base_color="gray", hovering_color="White")
+        QUIT_BUTTON = Button(image=None, pos=(380, 500), 
+                            text_input="QUIT", font=get_font(75), base_color="gray", hovering_color="White")  
+        for button in [BLITZ_BUTTON, RULE_BUTTON, QUIT_BUTTON]:
             button.changeColor(MENU_MOUSE_POS)
             button.update(SCREEN)
         for event in pygame.event.get():
@@ -391,13 +368,14 @@ def main_menu():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if BLITZ_BUTTON.checkForInput(MENU_MOUSE_POS):
-                    blitz()
-                if CRAZYHOUSE_BUTTON.checkForInput(MENU_MOUSE_POS):
-                    crazyhouse()
+                    blitz() 
+                if RULE_BUTTON.checkForInput(MENU_MOUSE_POS):
+                    rules() 
                 if QUIT_BUTTON.checkForInput(MENU_MOUSE_POS):
                     pygame.quit()
                     sys.exit()
         pygame.display.update()    
+
 
 main_menu()    
 
