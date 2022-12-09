@@ -21,7 +21,6 @@ pygame.init()
 
 SQUARE_SIDE = 95
 CLOCK_SIDE = 280
-AI_SEARCH_DEPTH = 2
 
 CLOCK_BACKGROUND = (0, 0, 0)
 RED_CHECK = (240, 150, 150)
@@ -65,7 +64,7 @@ CLOCK = pygame.time.Clock()
 CLOCK_TICK = 30
 
 SCREEN = pygame.display.set_mode(
-    (8*SQUARE_SIDE, 8*SQUARE_SIDE + CLOCK_SIDE), pygame.RESIZABLE)
+    (8*SQUARE_SIDE, 8*SQUARE_SIDE), pygame.RESIZABLE)
 SCREEN_TITLE = 'Chess Game'
 
 # -----------clock setting-----------
@@ -73,13 +72,23 @@ font = pygame.font.Font("fonts/BowlbyOneSC.ttf", 34)
 # -----------------------------------
 pygame.display.set_icon(pygame.image.load('images/chess_icon.ico'))
 clock_image = pygame.image.load("images/clock.png")
-clock_image = pygame.transform.scale(clock_image, (440, CLOCK_SIDE))
+clock_image = pygame.transform.scale(clock_image, (500, CLOCK_SIDE))
 pygame.display.set_caption(SCREEN_TITLE)
 pygame.display.set_icon(pygame.image.load('images/chess_icon.ico'))
 
-play_mode = 0   # 0은 시작하기 전, 1은 classic, 2는 blitz
-ai_depth = 2    # easy: 2, normal: 3, hard: 4
+play_mode = 2   # 0은 시작하기 전, 1은 classic, 2는 blitz
+ai_depth = 2    # easy: 1, normal: 2, hard: 3
 
+# -----------image setting-----------
+ai_easy = pygame.image.load("images/ai-easy.png")
+ai_easy = pygame.transform.scale(ai_easy, (300, 2.5 * SQUARE_SIDE))
+ai_normal = pygame.image.load("images/ai-middle.jpeg")
+ai_normal = pygame.transform.scale(ai_normal, (300, 2.5 * SQUARE_SIDE))
+ai_hard = pygame.image.load("images/ai-hard.png")
+ai_hard = pygame.transform.scale(ai_hard, (300, 2.5 * SQUARE_SIDE))
+player_pic = pygame.image.load("images/player.png")
+player_pic = pygame.transform.scale(player_pic, (300, 2.5 * SQUARE_SIDE))
+# -----------------------------------
 
 def resize_screen(square_side_len):
     global SQUARE_SIDE
@@ -99,8 +108,7 @@ def paint_square(square, square_color):
     row = 7-chessgame.RANKS.index(square[1])
     pygame.draw.rect(SCREEN, square_color, (SQUARE_SIDE*col,
                      SQUARE_SIDE*row, SQUARE_SIDE, SQUARE_SIDE), 0)
-    pygame.draw.rect(SCREEN, CLOCK_BACKGROUND, (0, SQUARE_SIDE *
-                     8, SQUARE_SIDE*8, SQUARE_SIDE+CLOCK_SIDE), 0)
+    pygame.draw.rect(SCREEN, CLOCK_BACKGROUND, (8 * SQUARE_SIDE, 0, 8 * SQUARE_SIDE + 500, 8 * SQUARE_SIDE), 0)
 
 
 def paint_dark_squares(square_color):
@@ -141,7 +149,15 @@ def print_board(board, color=chessgame.WHITE):
         paint_square(chessgame.bb2str(chessgame.get_king(
             printed_board, chessgame.BLACK)), RED_CHECK)
 
-    SCREEN.blit(clock_image, (0, 440))
+    if play_mode == 2:
+        SCREEN.blit(clock_image, (8*SQUARE_SIDE, 2.5*SQUARE_SIDE))
+        if ai_depth == 1:
+            SCREEN.blit(ai_easy, (8*SQUARE_SIDE + 100, 0))
+        elif ai_depth == 2:
+            SCREEN.blit(ai_normal, (8*SQUARE_SIDE + 100, 0))
+        elif ai_depth == 3:
+            SCREEN.blit(ai_hard, (8*SQUARE_SIDE + 100, 0))
+        SCREEN.blit(player_pic, (8*SQUARE_SIDE + 100, 5.5 * SQUARE_SIDE))
 
     for position in chessgame.colored_piece_gen(printed_board, chessgame.KING, chessgame.BLACK):
         SCREEN.blit(pygame.transform.scale(BLACK_KING,   (SQUARE_SIDE,
@@ -198,7 +214,7 @@ def set_title(title):
 def make_AI_move(game, color):
     set_title(SCREEN_TITLE + ' - Calculating move...')
     new_game = chessgame.make_move(
-        game, chessgame.get_AI_move(game, AI_SEARCH_DEPTH))
+        game, chessgame.get_AI_move(game, ai_depth))
     set_title(SCREEN_TITLE)
     print_board(new_game.board, color)
     return new_game
@@ -215,6 +231,8 @@ def play_as(game, color):
     run = True
     ongoing = True
     joker = 0
+
+    SCREEN = pygame.display.set_mode((8*SQUARE_SIDE + 500, 8*SQUARE_SIDE), pygame.RESIZABLE)
 
     time_a = 10
     time_b = 300
@@ -363,9 +381,9 @@ def update_timer(time_a, time_b):
     time_b_txt = font.render(time_b_str, 1, (255, 255, 255))
 
     time_a_rect = time_a_txt.get_rect()
-    time_a_rect.center = (120, 580)
+    time_a_rect.center = (760 + 140, 4.1*SQUARE_SIDE)
     time_b_rect = time_b_txt.get_rect()
-    time_b_rect.center = (330, 580)
+    time_b_rect.center = (760 + 380, 4.1*SQUARE_SIDE)
 
     SCREEN.blit(time_a_txt, time_a_rect)
     SCREEN.blit(time_b_txt, time_b_rect)
@@ -506,6 +524,18 @@ def blitz_level():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if BLITZ_BACK.checkForInput(BLITZ_MOUSE_POS):
                     blitz()
+                if BLITZ_EASY.checkForInput(BLITZ_MOUSE_POS):
+                    play_mode = 2
+                    ai_depth = 1
+                    play_random_color()
+                if BLITZ_NORMAL.checkForInput(BLITZ_MOUSE_POS):
+                    play_mode = 2
+                    ai_depth = 2
+                    play_random_color()
+                if BLITZ_HARD.checkForInput(BLITZ_MOUSE_POS):
+                    play_mode = 2
+                    ai_depth = 3
+                    play_random_color()
         pygame.display.update()
 
 
@@ -541,10 +571,16 @@ def classic():
                 if CLASSIC_BACK.checkForInput(BLITZ_MOUSE_POS):
                     main_menu()
                 if CLASSIC_EASY.checkForInput(BLITZ_MOUSE_POS):
+                    play_mode = 1
+                    ai_depth = 1
                     play_random_color()
                 if CLASSIC_NORMAL.checkForInput(BLITZ_MOUSE_POS):
+                    play_mode = 1
+                    ai_depth = 2
                     play_random_color()
                 if CLASSIC_HARD.checkForInput(BLITZ_MOUSE_POS):
+                    play_mode = 1
+                    ai_depth = 3
                     play_random_color()
 
         pygame.display.update()
