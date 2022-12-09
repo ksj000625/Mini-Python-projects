@@ -171,3 +171,123 @@ Playing as BLACK:
 >>>>>>> feature/Blitz
 -----------------------------
 
+----- 12/09/22 20:28:29 -----
+Traceback (most recent call last):
+  File "c:\Users\evan2\Desktop\명지\2022 2학기\공개SW실무\공개SW 팀플\공개SW 팀프로젝트\프로젝트\Mini-Python-projects\SimpleChess_GamePYTHON\chess game simple\gui.py", line 278, in play_as
+    move = (chessgame.str2bb(leaving_square),
+UnboundLocalError: local variable 'leaving_square' referenced before assignment
+
+Playing as WHITE:
+	
+	rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+-----------------------------
+
+----- 12/09/22 20:28:32 -----
+Traceback (most recent call last):
+  File "c:\Users\evan2\Desktop\명지\2022 2학기\공개SW실무\공개SW 팀플\공개SW 팀프로젝트\프로젝트\Mini-Python-projects\SimpleChess_GamePYTHON\chess game simple\gui.py", line 278, in play_as
+    move = (chessgame.str2bb(leaving_square),
+UnboundLocalError: local variable 'leaving_square' referenced before assignment
+
+Playing as BLACK:
+	d2d4
+	rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+	rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq d3 0 1
+-----------------------------
+
+----- 12/09/22 20:28:33 -----
+Traceback (most recent call last):
+  File "c:\Users\evan2\Desktop\명지\2022 2학기\공개SW실무\공개SW 팀플\공개SW 팀프로젝트\프로젝트\Mini-Python-projects\SimpleChess_GamePYTHON\chess game simple\gui.py", line 275, in play_as
+    arriving_square = coord2str(event.pos, color)
+  File "c:\Users\evan2\Desktop\명지\2022 2학기\공개SW실무\공개SW 팀플\공개SW 팀프로젝트\프로젝트\Mini-Python-projects\SimpleChess_GamePYTHON\chess game simple\gui.py", line 125, in coord2str
+    return chessgame.FILES[file_index] + chessgame.RANKS[rank_index]
+IndexError: list index out of range
+
+Playing as BLACK:
+	d2d4
+	rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+	rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq d3 0 1
+-----------------------------
+
+----- 12/09/22 20:28:35 -----
+Traceback (most recent call last):
+  File "c:\Users\evan2\Desktop\명지\2022 2학기\공개SW실무\공개SW 팀플\공개SW 팀프로젝트\프로젝트\Mini-Python-projects\SimpleChess_GamePYTHON\chess game simple\gui.py", line 278, in play_as
+    move = (chessgame.str2bb(leaving_square),
+UnboundLocalError: local variable 'leaving_square' referenced before assignment
+
+Playing as BLACK:
+	g1f3
+	rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+	rnbqkbnr/pppppppp/8/8/8/5N2/PPPPPPPP/RNBQKB1R b KQkq - 1 1
+-----------------------------
+
+----- 12/09/22 20:28:36 -----
+Traceback (most recent call last):
+  File "c:\Users\evan2\Desktop\명지\2022 2학기\공개SW실무\공개SW 팀플\공개SW 팀프로젝트\프로젝트\Mini-Python-projects\SimpleChess_GamePYTHON\chess game simple\gui.py", line 278, in play_as
+    move = (chessgame.str2bb(leaving_square),
+UnboundLocalError: local variable 'leaving_square' referenced before assignment
+
+Playing as BLACK:
+	c2c4
+	rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+	rnbqkbnr/pppppppp/8/8/2P5/8/PP1PPPPP/RNBQKBNR b KQkq c3 0 1
+-----------------------------
+
+----- 12/09/22 20:28:36 -----
+Traceback (most recent call last):
+  File "c:\Users\evan2\Desktop\명지\2022 2학기\공개SW실무\공개SW 팀플\공개SW 팀프로젝트\프로젝트\Mini-Python-projects\SimpleChess_GamePYTHON\chess game simple\gui.py", line 278, in play_as
+    move = (chessgame.str2bb(leaving_square),
+UnboundLocalError: local variable 'leaving_square' referenced before assignment
+
+Playing as WHITE:
+	
+	rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+-----------------------------
+
+----- 12/09/22 20:28:38 -----
+Traceback (most recent call last):
+  File "c:\Users\evan2\Desktop\명지\2022 2학기\공개SW실무\공개SW 팀플\공개SW 팀프로젝트\프로젝트\Mini-Python-projects\SimpleChess_GamePYTHON\chess game simple\gui.py", line 278, in play_as
+    move = (chessgame.str2bb(leaving_square),
+UnboundLocalError: local variable 'leaving_square' referenced before assignment
+
+Playing as WHITE:
+	
+	rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+-----------------------------
+
+----- 12/09/22 20:28:38 -----
+Traceback (most recent call last):
+  File "c:\Users\evan2\Desktop\명지\2022 2학기\공개SW실무\공개SW 팀플\공개SW 팀프로젝트\프로젝트\Mini-Python-projects\SimpleChess_GamePYTHON\chess game simple\gui.py", line 275, in play_as
+    arriving_square = coord2str(event.pos, color)
+  File "c:\Users\evan2\Desktop\명지\2022 2학기\공개SW실무\공개SW 팀플\공개SW 팀프로젝트\프로젝트\Mini-Python-projects\SimpleChess_GamePYTHON\chess game simple\gui.py", line 125, in coord2str
+    return chessgame.FILES[file_index] + chessgame.RANKS[rank_index]
+IndexError: list index out of range
+
+Playing as BLACK:
+	g1f3
+	rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+	rnbqkbnr/pppppppp/8/8/8/5N2/PPPPPPPP/RNBQKB1R b KQkq - 1 1
+-----------------------------
+
+----- 12/09/22 20:28:39 -----
+Traceback (most recent call last):
+  File "c:\Users\evan2\Desktop\명지\2022 2학기\공개SW실무\공개SW 팀플\공개SW 팀프로젝트\프로젝트\Mini-Python-projects\SimpleChess_GamePYTHON\chess game simple\gui.py", line 278, in play_as
+    move = (chessgame.str2bb(leaving_square),
+UnboundLocalError: local variable 'leaving_square' referenced before assignment
+
+Playing as BLACK:
+	g1f3
+	rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+	rnbqkbnr/pppppppp/8/8/8/5N2/PPPPPPPP/RNBQKB1R b KQkq - 1 1
+-----------------------------
+
+----- 12/09/22 20:28:39 -----
+Traceback (most recent call last):
+  File "c:\Users\evan2\Desktop\명지\2022 2학기\공개SW실무\공개SW 팀플\공개SW 팀프로젝트\프로젝트\Mini-Python-projects\SimpleChess_GamePYTHON\chess game simple\gui.py", line 278, in play_as
+    move = (chessgame.str2bb(leaving_square),
+UnboundLocalError: local variable 'leaving_square' referenced before assignment
+
+Playing as WHITE:
+	
+	rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+-----------------------------
+
