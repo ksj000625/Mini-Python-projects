@@ -97,6 +97,7 @@ player_pic = pygame.image.load("images/player.png")
 player_pic = pygame.transform.scale(player_pic, (300, 2.5 * SQUARE_SIDE))
 # -----------------------------------
 
+
 def resize_screen(square_side_len):
     global SQUARE_SIDE
     global SCREEN
@@ -115,7 +116,8 @@ def paint_square(square, square_color):
     row = 7-chessgame.RANKS.index(square[1])
     pygame.draw.rect(SCREEN, square_color, (SQUARE_SIDE*col,
                      SQUARE_SIDE*row, SQUARE_SIDE, SQUARE_SIDE), 0)
-    pygame.draw.rect(SCREEN, CLOCK_BACKGROUND, (8 * SQUARE_SIDE, 0, 8 * SQUARE_SIDE + 500, 8 * SQUARE_SIDE), 0)
+    pygame.draw.rect(SCREEN, CLOCK_BACKGROUND, (8 * SQUARE_SIDE,
+                     0, 8 * SQUARE_SIDE + 500, 8 * SQUARE_SIDE), 0)
 
 
 def paint_dark_squares(square_color):
@@ -245,9 +247,10 @@ def play_as(game, color):
     run = True
     ongoing = True
     joker = 0
-    
+
     if play_mode == 2:
-        SCREEN = pygame.display.set_mode((8*SQUARE_SIDE + 500, 8*SQUARE_SIDE), pygame.RESIZABLE)
+        SCREEN = pygame.display.set_mode(
+            (8*SQUARE_SIDE + 500, 8*SQUARE_SIDE), pygame.RESIZABLE)
 
     for_check = 0
 
@@ -548,14 +551,97 @@ def blitz_level():
                 if BLITZ_EASY.checkForInput(BLITZ_MOUSE_POS):
                     ai_depth = 1
                     play_key = True
+                    setting_time()
                 if BLITZ_NORMAL.checkForInput(BLITZ_MOUSE_POS):
                     ai_depth = 2
                     play_key = True
+                    setting_time()
                 if BLITZ_HARD.checkForInput(BLITZ_MOUSE_POS):
                     ai_depth = 3
                     play_key = True
+                    setting_time()
         if play_key:
             play_random_color()
+        pygame.display.update()
+
+# Setting BLITZ Time
+
+
+def setting_time():
+    while True:
+        TIME_MOUSE_POS = pygame.mouse.get_pos()
+
+        SCREEN.fill("black")
+
+        BLITZ_TEXT = get_font(100).render("BLITZ", True, "#b68f40")
+        BLITZ_RECT = BLITZ_TEXT.get_rect(center=(380, 110))
+        SCREEN.blit(BLITZ_TEXT, BLITZ_RECT)
+
+        # TEXT
+        TEXT = get_font(25).render(
+            "SETTING BLITZ TIME", True, "white")
+        TEXT_RECT = TEXT.get_rect()
+        TEXT_RECT.x = 280
+        TEXT_RECT.y = 220
+        SCREEN.blit(TEXT, TEXT_RECT)
+
+        TEXT = get_font(25).render(
+            "PLAYER", True, "white")
+        TEXT_RECT = TEXT.get_rect()
+        TEXT_RECT.centerx = 180
+        TEXT_RECT.y = 280
+        SCREEN.blit(TEXT, TEXT_RECT)
+
+        TEXT = get_font(25).render(
+            "COM", True, "white")
+        TEXT_RECT = TEXT.get_rect()
+        TEXT_RECT.centerx = 600
+        TEXT_RECT.y = 280
+        SCREEN.blit(TEXT, TEXT_RECT)
+
+        TEXT = get_font(25).render(
+            "Q : +1 MINUTE", True, "white")
+        TEXT_RECT = TEXT.get_rect()
+        TEXT_RECT.x = 100
+        TEXT_RECT.y = 340
+        SCREEN.blit(TEXT, TEXT_RECT)
+
+        TEXT = get_font(25).render(
+            "A : -1 MINUTE", True, "white")
+        TEXT_RECT = TEXT.get_rect()
+        TEXT_RECT.x = 100
+        TEXT_RECT.y = 370
+        SCREEN.blit(TEXT, TEXT_RECT)
+
+        TEXT = get_font(25).render(
+            "P : +1 MINUTE", True, "white")
+        TEXT_RECT = TEXT.get_rect()
+        TEXT_RECT.x = 520
+        TEXT_RECT.y = 340
+        SCREEN.blit(TEXT, TEXT_RECT)
+
+        TEXT = get_font(25).render(
+            "L : -1 MINUTE", True, "white")
+        TEXT_RECT = TEXT.get_rect()
+        TEXT_RECT.x = 520
+        TEXT_RECT.y = 370
+        SCREEN.blit(TEXT, TEXT_RECT)
+
+        # Button
+        # START_BUTTON = Button(image=None, pos(380, 700)
+        #                         text_input="START",font=get_font(75), base_color="#dcfcd4", hovering_color="White")
+
+        # for button in [START_BUTTON]:
+        #     button.changeColor(RULE_MOUSE_POS)
+        #     button.update(SCREEN)
+        # for event in pygame.event.get():
+        #     if event.type == pygame.QUIT:
+        #         pygame.quit()
+        #         sys.exit()
+        #     if event.type == pygame.MOUSEBUTTONDOWN:
+        #         if START_BUTTON.checkForInput(TIME_MOUSE_POS):
+        #             # Starting Game
+
         pygame.display.update()
 
 
@@ -586,7 +672,7 @@ def classic():
         for button in [CLASSIC_EASY, CLASSIC_NORMAL, CLASSIC_HARD, CLASSIC_BACK]:
             button.changeColor(BLITZ_MOUSE_POS)
             button.update(SCREEN)
-        
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -628,7 +714,7 @@ def classic():
 #         CRAZY_GAME.changeColor(CRAZY_MOUSE_POS)
 #         CRAZY_BACK.update(SCREEN)
 #         CRAZY_GAME.update(SCREEN)
-        
+
 #         for event in pygame.event.get():
 #             if event.type == pygame.QUIT:
 #                 pygame.quit()
@@ -780,7 +866,7 @@ def rule2():
         for button in [MAIN_MENU_BUTTON, NEXT_BUTTON, QUIT_BUTTON, PREVIOUS_BUTTON]:
             button.changeColor(RULE_MOUSE_POS)
             button.update(SCREEN)
-        
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -871,7 +957,7 @@ def rule3():
         for button in [MAIN_MENU_BUTTON, NEXT_BUTTON, QUIT_BUTTON, PREVIOUS_BUTTON]:
             button.changeColor(RULE_MOUSE_POS)
             button.update(SCREEN)
-        
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -979,7 +1065,7 @@ def rule4():
         for button in [MAIN_MENU_BUTTON, NEXT_BUTTON, QUIT_BUTTON, PREVIOUS_BUTTON]:
             button.changeColor(RULE_MOUSE_POS)
             button.update(SCREEN)
-        
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -1035,7 +1121,7 @@ def rule5():
         for button in [MAIN_MENU_BUTTON, QUIT_BUTTON, PREVIOUS_BUTTON]:
             button.changeColor(RULE_MOUSE_POS)
             button.update(SCREEN)
-        
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -1075,7 +1161,7 @@ def main_menu():
         for button in [BLITZ_BUTTON, CLASSIC_BUTTON, EXIT_BUTTON, HOW_TO_PLAY_BUTTON]:
             button.changeColor(MENU_MOUSE_POS)
             button.update(SCREEN)
-        
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
