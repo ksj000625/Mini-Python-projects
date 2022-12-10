@@ -506,7 +506,7 @@ def blitz():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONUP:
                 if BLITZ_BACK.checkForInput(BLITZ_MOUSE_POS):
                     main_menu()
                 if BLITZ_START.checkForInput(BLITZ_MOUSE_POS):
@@ -545,7 +545,7 @@ def blitz_level():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONUP:
                 if BLITZ_BACK.checkForInput(BLITZ_MOUSE_POS):
                     blitz()
                 if BLITZ_EASY.checkForInput(BLITZ_MOUSE_POS):
@@ -710,7 +710,7 @@ def classic():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONUP:
                 if CLASSIC_BACK.checkForInput(BLITZ_MOUSE_POS):
                     main_menu()
                 if CLASSIC_EASY.checkForInput(BLITZ_MOUSE_POS):
@@ -821,7 +821,7 @@ def rule():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONUP:
                 if MAIN_MENU_BUTTON.checkForInput(RULE_MOUSE_POS):
                     main_menu()
                 if NEXT_BUTTON.checkForInput(RULE_MOUSE_POS):
@@ -907,7 +907,7 @@ def rule2():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONUP:
                 if MAIN_MENU_BUTTON.checkForInput(RULE_MOUSE_POS):
                     main_menu()
                 if NEXT_BUTTON.checkForInput(RULE_MOUSE_POS):
@@ -998,7 +998,7 @@ def rule3():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONUP:
                 if MAIN_MENU_BUTTON.checkForInput(RULE_MOUSE_POS):
                     main_menu()
                 if NEXT_BUTTON.checkForInput(RULE_MOUSE_POS):
@@ -1106,7 +1106,7 @@ def rule4():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONUP:
                 if MAIN_MENU_BUTTON.checkForInput(RULE_MOUSE_POS):
                     main_menu()
                 if NEXT_BUTTON.checkForInput(RULE_MOUSE_POS):
@@ -1162,7 +1162,7 @@ def rule5():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONUP:
                 if MAIN_MENU_BUTTON.checkForInput(RULE_MOUSE_POS):
                     main_menu()
                 if PREVIOUS_BUTTON.checkForInput(RULE_MOUSE_POS):
@@ -1202,7 +1202,7 @@ def main_menu():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONUP:
                 if BLITZ_BUTTON.checkForInput(MENU_MOUSE_POS):
                     blitz()
                 if CLASSIC_BUTTON.checkForInput(MENU_MOUSE_POS):
