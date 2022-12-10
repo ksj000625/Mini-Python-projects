@@ -316,7 +316,8 @@ def play_as(game, color):
                         print_board(game.board, color)
                         break
 
-                    for_check = 0
+                    if play_mode == 1 | play_mode == 2:
+                        for_check = 0
                     # if not a_on:
                     #     # Set for 1 second (1000 milliseconds)
                     #     pygame.time.set_timer(USEREVENT, 1000)
@@ -517,7 +518,6 @@ def blitz_level():
     global play_mode
     global ai_depth
     play_mode = 2
-    play_key = False
     while True:
         BLITZ_MOUSE_POS = pygame.mouse.get_pos()
 
@@ -550,24 +550,22 @@ def blitz_level():
                     blitz()
                 if BLITZ_EASY.checkForInput(BLITZ_MOUSE_POS):
                     ai_depth = 1
-                    play_key = True
                     setting_time()
                 if BLITZ_NORMAL.checkForInput(BLITZ_MOUSE_POS):
                     ai_depth = 2
-                    play_key = True
                     setting_time()
                 if BLITZ_HARD.checkForInput(BLITZ_MOUSE_POS):
                     ai_depth = 3
-                    play_key = True
                     setting_time()
-        if play_key:
-            play_random_color()
         pygame.display.update()
 
 # Setting BLITZ Time
 
 
 def setting_time():
+    global time_a
+    global time_b
+    play_key = False
     while True:
         TIME_MOUSE_POS = pygame.mouse.get_pos()
 
@@ -628,19 +626,54 @@ def setting_time():
         SCREEN.blit(TEXT, TEXT_RECT)
 
         # Button
-        # START_BUTTON = Button(image=None, pos(380, 700)
-        #                         text_input="START",font=get_font(75), base_color="#dcfcd4", hovering_color="White")
+        START_BUTTON = Button(image=None, pos=(380, 720),
+                                text_input="START",font=get_font(75), base_color="#dcfcd4", hovering_color="White")
+        SCREEN.blit(clock_image, (130, 400))
 
-        # for button in [START_BUTTON]:
-        #     button.changeColor(RULE_MOUSE_POS)
-        #     button.update(SCREEN)
-        # for event in pygame.event.get():
-        #     if event.type == pygame.QUIT:
-        #         pygame.quit()
-        #         sys.exit()
-        #     if event.type == pygame.MOUSEBUTTONDOWN:
-        #         if START_BUTTON.checkForInput(TIME_MOUSE_POS):
-        #             # Starting Game
+        for button in [START_BUTTON]:
+            button.changeColor(TIME_MOUSE_POS)
+            button.update(SCREEN)
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONUP:
+                if START_BUTTON.checkForInput(TIME_MOUSE_POS):
+                    # Starting Game
+                    play_key = True
+                    break
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == K_q:
+                    time_a += 60 # add a minute from alloted time
+
+                if event.key == K_a:
+                    time_a -= 60 # subtract a minute
+
+                if event.key == K_p:
+                    time_b += 60
+
+                if event.key == K_l:
+                    time_b -= 60
+        
+        # Format time into minutes:seconds
+        time_a_str = "%d:%02d" % (int(time_a/60),int(time_a%60))
+        time_b_str = "%d:%02d" % (int(time_b/60),int(time_b%60) )
+
+        time_a_txt = font.render(time_a_str, True, (255, 255, 255))
+        time_b_txt = font.render(time_b_str, True, (255, 255, 255))
+
+        time_a_rect = time_a_txt.get_rect()
+        time_a_rect.center = (270, 550)
+        time_b_rect = time_b_txt.get_rect()
+        time_b_rect.center = (510, 550)
+
+        SCREEN.blit(time_a_txt, time_a_rect)
+        SCREEN.blit(time_b_txt, time_b_rect)
+            
+        if play_key:
+            play_random_color()
 
         pygame.display.update()
 
@@ -683,12 +716,15 @@ def classic():
                 if CLASSIC_EASY.checkForInput(BLITZ_MOUSE_POS):
                     ai_depth = 1
                     play_key = True
+                    break
                 if CLASSIC_NORMAL.checkForInput(BLITZ_MOUSE_POS):
                     ai_depth = 2
                     play_key = True
+                    break
                 if CLASSIC_HARD.checkForInput(BLITZ_MOUSE_POS):
                     ai_depth = 3
                     play_key = True
+                    break
         if play_key:
             play_random_color()
 
