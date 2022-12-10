@@ -76,8 +76,15 @@ clock_image = pygame.transform.scale(clock_image, (500, CLOCK_SIDE))
 pygame.display.set_caption(SCREEN_TITLE)
 pygame.display.set_icon(pygame.image.load('images/chess_icon.ico'))
 
-play_mode = 2   # 0은 시작하기 전, 1은 classic, 2는 blitz
-ai_depth = 2    # easy: 1, normal: 2, hard: 3
+global play_mode   # 0은 시작하기 전, 1은 classic, 2는 blitz
+play_mode = 0
+global ai_depth    # easy: 1, normal: 2, hard: 3
+ai_depth = 1
+
+global time_a
+time_a = 300
+global time_b
+time_b = 300
 
 # -----------image setting-----------
 ai_easy = pygame.image.load("images/ai-easy.png")
@@ -134,6 +141,8 @@ def coord2str(position, color=chessgame.WHITE):
 
 
 def print_board(board, color=chessgame.WHITE):
+    global play_mode
+    global ai_depth
 
     if color == chessgame.WHITE:
         printed_board = board
@@ -228,16 +237,18 @@ def try_move(game, attempted_move):
 
 
 def play_as(game, color):
+    global play_mode
+    global ai_depth
+    global time_a
+    global time_b
+
     run = True
     ongoing = True
     joker = 0
+    
+    if play_mode == 2:
+        SCREEN = pygame.display.set_mode((8*SQUARE_SIDE + 500, 8*SQUARE_SIDE), pygame.RESIZABLE)
 
-    SCREEN = pygame.display.set_mode((8*SQUARE_SIDE + 500, 8*SQUARE_SIDE), pygame.RESIZABLE)
-
-    time_a = 10
-    time_b = 300
-    a_on = False
-    b_on = True
     for_check = 0
 
     try:
@@ -259,10 +270,11 @@ def play_as(game, color):
             else:
                 print(for_check)
                 if for_check == 0:
-                    print("for_check is 0")
-                    # Set for 1 second (1000 milliseconds)
-                    pygame.time.set_timer(USEREVENT, 1000)
-                    pygame.time.set_timer(USEREVENT + 1, 0)
+                    if play_mode == 2:
+                        print("for_check is 0")
+                        # Set for 1 second (1000 milliseconds)
+                        pygame.time.set_timer(USEREVENT, 1000)
+                        pygame.time.set_timer(USEREVENT + 1, 0)
 
             if chessgame.game_ended(game, time_a, time_b):
                 set_title(SCREEN_TITLE + ' - ' +
@@ -272,6 +284,8 @@ def play_as(game, color):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
+                    pygame.quit()
+                    sys.exit()
 
                 if event.type == USEREVENT:
                     if time_a > 0:
@@ -442,6 +456,9 @@ class Button():
 
 
 def blitz():
+    global play_mode
+    global ai_depth
+    play_mode = 2
     while True:
         BLITZ_MOUSE_POS = pygame.mouse.get_pos()
 
@@ -494,6 +511,10 @@ def blitz():
 
 
 def blitz_level():
+    global play_mode
+    global ai_depth
+    play_mode = 2
+    play_key = False
     while True:
         BLITZ_MOUSE_POS = pygame.mouse.get_pos()
 
@@ -525,21 +546,24 @@ def blitz_level():
                 if BLITZ_BACK.checkForInput(BLITZ_MOUSE_POS):
                     blitz()
                 if BLITZ_EASY.checkForInput(BLITZ_MOUSE_POS):
-                    play_mode = 2
                     ai_depth = 1
-                    play_random_color()
+                    play_key = True
                 if BLITZ_NORMAL.checkForInput(BLITZ_MOUSE_POS):
-                    play_mode = 2
                     ai_depth = 2
-                    play_random_color()
+                    play_key = True
                 if BLITZ_HARD.checkForInput(BLITZ_MOUSE_POS):
-                    play_mode = 2
                     ai_depth = 3
-                    play_random_color()
+                    play_key = True
+        if play_key:
+            play_random_color()
         pygame.display.update()
 
 
 def classic():
+    global play_mode
+    global ai_depth
+    play_mode = 1
+    play_key = False
     while True:
         BLITZ_MOUSE_POS = pygame.mouse.get_pos()
 
@@ -562,7 +586,7 @@ def classic():
         for button in [CLASSIC_EASY, CLASSIC_NORMAL, CLASSIC_HARD, CLASSIC_BACK]:
             button.changeColor(BLITZ_MOUSE_POS)
             button.update(SCREEN)
-
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -571,50 +595,49 @@ def classic():
                 if CLASSIC_BACK.checkForInput(BLITZ_MOUSE_POS):
                     main_menu()
                 if CLASSIC_EASY.checkForInput(BLITZ_MOUSE_POS):
-                    play_mode = 1
                     ai_depth = 1
-                    play_random_color()
+                    play_key = True
                 if CLASSIC_NORMAL.checkForInput(BLITZ_MOUSE_POS):
-                    play_mode = 1
                     ai_depth = 2
-                    play_random_color()
+                    play_key = True
                 if CLASSIC_HARD.checkForInput(BLITZ_MOUSE_POS):
-                    play_mode = 1
                     ai_depth = 3
-                    play_random_color()
+                    play_key = True
+        if play_key:
+            play_random_color()
 
         pygame.display.update()
 
 
-def crazyhouse():
-    while True:
-        CRAZY_MOUSE_POS = pygame.mouse.get_pos()
+# def crazyhouse():
+#     while True:
+#         CRAZY_MOUSE_POS = pygame.mouse.get_pos()
 
-        SCREEN.fill("black")
+#         SCREEN.fill("black")
 
-        CRAZY_TEXT = get_font(100).render("CRAZY HOUSE", True, "#b68f40")
-        CRAZY_RECT = CRAZY_TEXT.get_rect(center=(380, 110))
-        SCREEN.blit(CRAZY_TEXT, CRAZY_RECT)
+#         CRAZY_TEXT = get_font(100).render("CRAZY HOUSE", True, "#b68f40")
+#         CRAZY_RECT = CRAZY_TEXT.get_rect(center=(380, 110))
+#         SCREEN.blit(CRAZY_TEXT, CRAZY_RECT)
 
-        CRAZY_BACK = Button(image=None, pos=(600, 500),
-                            text_input="BACK", font=get_font(50), base_color="White", hovering_color="Green")
-        CRAZY_GAME = Button(image=None, pos=(160, 500),
-                            text_input="START", font=get_font(50), base_color="White", hovering_color="Green")
+#         CRAZY_BACK = Button(image=None, pos=(600, 500),
+#                             text_input="BACK", font=get_font(50), base_color="White", hovering_color="Green")
+#         CRAZY_GAME = Button(image=None, pos=(160, 500),
+#                             text_input="START", font=get_font(50), base_color="White", hovering_color="Green")
 
-        CRAZY_BACK.changeColor(CRAZY_MOUSE_POS)
-        CRAZY_GAME.changeColor(CRAZY_MOUSE_POS)
-        CRAZY_BACK.update(SCREEN)
-        CRAZY_GAME.update(SCREEN)
+#         CRAZY_BACK.changeColor(CRAZY_MOUSE_POS)
+#         CRAZY_GAME.changeColor(CRAZY_MOUSE_POS)
+#         CRAZY_BACK.update(SCREEN)
+#         CRAZY_GAME.update(SCREEN)
+        
+#         for event in pygame.event.get():
+#             if event.type == pygame.QUIT:
+#                 pygame.quit()
+#                 sys.exit()
+#             if event.type == pygame.MOUSEBUTTONDOWN:
+#                 if CRAZY_BACK.checkForInput(CRAZY_MOUSE_POS):
+#                     main_menu()
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if CRAZY_BACK.checkForInput(CRAZY_MOUSE_POS):
-                    main_menu()
-
-        pygame.display.update()
+#         pygame.display.update()
 
 # Rule Book
 
@@ -671,6 +694,7 @@ def rule():
         for button in [MAIN_MENU_BUTTON, NEXT_BUTTON, QUIT_BUTTON]:
             button.changeColor(RULE_MOUSE_POS)
             button.update(SCREEN)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -756,6 +780,7 @@ def rule2():
         for button in [MAIN_MENU_BUTTON, NEXT_BUTTON, QUIT_BUTTON, PREVIOUS_BUTTON]:
             button.changeColor(RULE_MOUSE_POS)
             button.update(SCREEN)
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -846,6 +871,7 @@ def rule3():
         for button in [MAIN_MENU_BUTTON, NEXT_BUTTON, QUIT_BUTTON, PREVIOUS_BUTTON]:
             button.changeColor(RULE_MOUSE_POS)
             button.update(SCREEN)
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -953,6 +979,7 @@ def rule4():
         for button in [MAIN_MENU_BUTTON, NEXT_BUTTON, QUIT_BUTTON, PREVIOUS_BUTTON]:
             button.changeColor(RULE_MOUSE_POS)
             button.update(SCREEN)
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -1008,6 +1035,7 @@ def rule5():
         for button in [MAIN_MENU_BUTTON, QUIT_BUTTON, PREVIOUS_BUTTON]:
             button.changeColor(RULE_MOUSE_POS)
             button.update(SCREEN)
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -1047,6 +1075,7 @@ def main_menu():
         for button in [BLITZ_BUTTON, CLASSIC_BUTTON, EXIT_BUTTON, HOW_TO_PLAY_BUTTON]:
             button.changeColor(MENU_MOUSE_POS)
             button.update(SCREEN)
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
