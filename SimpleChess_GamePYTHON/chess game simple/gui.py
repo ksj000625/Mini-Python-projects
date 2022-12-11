@@ -1,8 +1,6 @@
-'''
-Developed by: Frederico Jordan
+'''공개 SW 실무'''
+'''김성진 권상훈 김하랑 채연우 홍수민'''
 
-@author: fvj
-'''
 import pygame
 import chessgame
 from pygame.locals import *
@@ -24,24 +22,12 @@ CLOCK_SIDE = 280
 
 CLOCK_BACKGROUND = (0, 0, 0)
 RED_CHECK = (240, 150, 150)
-WHITE = (255, 255, 255)
-BLUE_LIGHT = (140, 184, 219)
-BLUE_DARK = (91,  131, 159)
-GRAY_LIGHT = (240, 240, 240)
-GRAY_DARK = (200, 200, 200)
-CHESSWEBSITE_LIGHT = (212, 202, 190)
-CHESSWEBSITE_DARK = (100,  92,  89)
+
 LICHESS_LIGHT = (240, 217, 181)
 LICHESS_DARK = (181, 136,  99)
-LICHESS_GRAY_LIGHT = (164, 164, 164)
-LICHESS_GRAY_DARK = (136, 136, 136)
 
-BOARD_COLORS = [(GRAY_LIGHT, GRAY_DARK),
-                (BLUE_LIGHT, BLUE_DARK),
-                (WHITE, BLUE_LIGHT),
-                (CHESSWEBSITE_LIGHT, CHESSWEBSITE_DARK),
-                (LICHESS_LIGHT, LICHESS_DARK),
-                (LICHESS_GRAY_LIGHT, LICHESS_GRAY_DARK)]
+
+BOARD_COLORS = [(LICHESS_LIGHT, LICHESS_DARK)]
 BOARD_COLOR = choice(BOARD_COLORS)
 
 BLACK_KING = pygame.image.load('images/black_king.png')
